@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../features/dashboard/screens/dashboard_screen.dart';
 import '../features/settings/screens/settings_screen.dart';
 import '../features/calibration/screens/calibration_screen.dart';
+import '../features/overlay/overlay_window.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 final shellNavigatorKey = GlobalKey<NavigatorState>();
@@ -29,6 +30,10 @@ final router = GoRouter(
         GoRoute(
           path: '/calibration',
           builder: (context, state) => const CalibrationScreen(),
+        ),
+        GoRoute(
+          path: '/overlay',
+          builder: (context, state) => const OverlayWindow(),
         ),
       ],
     ),

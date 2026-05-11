@@ -36,14 +36,25 @@ class _ConnectScreenState extends ConsumerState<ConnectScreen> {
 
   Future<void> _scanDevices() async {
     setState(() => _scanning = true);
-    final discovery = MdnsDiscovery();
-    final wifiDevices = await discovery.scan();
-    final bluetooth = await ref.read(bluetoothServiceProvider).scan();
-    setState(() {
-      _wifiDevices = wifiDevices;
-      _bluetoothDevices = bluetooth;
-      _scanning = false;
-    });
+    try {
+      final discovery = MdnsDiscovery();
+      final wifiDevices = await discovery.scan();
+      final bluetooth = await ref.read(bluetoothServiceProvider).scan();
+      setState(() {
+        _wifiDevices = wifiDevices;
+        _bluetoothDevices = bluetooth;
+      });
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Scan failed: $e')),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() => _scanning = false);
+      }
+    }
   }
 
   Future<void> _connectToWifi(String host, int port) async {

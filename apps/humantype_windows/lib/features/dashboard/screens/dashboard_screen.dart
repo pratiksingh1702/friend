@@ -1,26 +1,34 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:window_manager/window_manager.dart';
+import 'package:humantype_shared/humantype_shared.dart';
+import '../../../core/router.dart';
+import '../../sync/providers/bridge_provider.dart';
+import '../../ocr/providers/ocr_provider.dart';
+import '../../ocr/services/ocr_loop_service.dart';
 
 class DashboardScreen extends ConsumerWidget {
   const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final bridge = ref.watch(bridgeProvider);
+
     return ScaffoldPage.scrollable(
       header: const PageHeader(
         title: Text('Dashboard'),
       ),
       children: [
-        _buildStatusSection(context),
+        _buildStatusSection(context, bridge),
         const SizedBox(height: 24),
-        _buildQuickActions(context),
+        _buildQuickActions(context, ref),
         const SizedBox(height: 24),
         _buildRecentSessions(context),
       ],
     );
   }
 
-  Widget _buildStatusSection(BuildContext context) {
+  Widget _buildStatusSection(BuildContext context, BridgeState bridge) {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
@@ -40,24 +48,28 @@ class DashboardScreen extends ConsumerWidget {
             context,
             icon: FluentIcons.cell_phone,
             label: 'Android Link',
-            status: 'Disconnected',
-            statusColor: Colors.red,
+            status: bridge.isAndroidConnected
+                ? bridge.androidDeviceName ?? 'Connected'
+                : 'Disconnected',
+            statusColor: bridge.isAndroidConnected ? Colors.green : Colors.red,
           ),
           const Spacer(),
           _buildStatusItem(
             context,
             icon: FluentIcons.server_processes,
             label: 'Bridge Status',
-            status: 'Active (Port 8765)',
-            statusColor: Colors.green,
+            status: bridge.isConnected ? 'Active (Port 8765)' : 'Connecting...',
+            statusColor: bridge.isConnected ? Colors.green : Colors.orange,
           ),
           const Spacer(),
           _buildStatusItem(
             context,
             icon: FluentIcons.view,
-            label: 'Overlay',
-            status: 'Inactive',
-            statusColor: Colors.grey,
+            label: 'Session',
+            status: bridge.sessionStatus.name.toUpperCase(),
+            statusColor: bridge.sessionStatus == SessionStatus.executing
+                ? Colors.blue
+                : Colors.grey,
           ),
         ],
       ),
@@ -100,7 +112,7 @@ class DashboardScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildQuickActions(BuildContext context) {
+  Widget _buildQuickActions(BuildContext context, WidgetRef ref) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -113,15 +125,36 @@ class DashboardScreen extends ConsumerWidget {
               icon: FluentIcons.screen_cast,
               title: 'Launch Overlay',
               description: 'Show floating HUD on screen',
-              onPressed: () {},
+              onPressed: () async {
+                // Configure and show the overlay window
+                await windowManager.setSize(const Size(300, 200));
+                await windowManager.setAsFrameless();
+                await windowManager.setAlwaysOnTop(true);
+                await windowManager.setBackgroundColor(Colors.transparent);
+                await windowManager.setAlignment(Alignment.topRight);
+                
+                // For now, we navigate the main window to the overlay route
+                // In a production app, we'd open a SECOND window, but for Flutter desktop
+                // the simplest way is to change the current view or use a sub-window.
+                router.go('/overlay');
+              },
             ),
             const SizedBox(width: 16),
             _buildActionCard(
               context,
               icon: FluentIcons.camera,
               title: 'OCR Capture',
-              description: 'Start screen text extraction',
-              onPressed: () {},
+              description: ref.watch(ocrLoopServiceProvider).isRunning
+                  ? 'OCR is running...'
+                  : 'Start screen text extraction',
+              onPressed: () {
+                final ocrLoop = ref.read(ocrLoopServiceProvider);
+                if (ocrLoop.isRunning) {
+                  ocrLoop.stop();
+                } else {
+                  ocrLoop.start();
+                }
+              },
             ),
             const SizedBox(width: 16),
             _buildActionCard(

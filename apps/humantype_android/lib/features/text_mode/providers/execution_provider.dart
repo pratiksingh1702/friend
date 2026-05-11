@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:humantype_shared/humantype_shared.dart';
 
 import '../../connect/services/wifi_service.dart';
+import '../../connect/services/bluetooth_service.dart';
 import '../../history/providers/history_provider.dart';
 import '../../settings/providers/settings_provider.dart';
 import 'session_provider.dart';
@@ -121,9 +123,12 @@ class ExecutionNotifier extends Notifier<ExecutionState> {
     _stopRequested = false;
     _charSent = state.charsCompleted;
     state = state.copyWith(isRunning: true, isPaused: false);
-    wifi.sendSessionControl('START');
-    ref.read(sessionProvider.notifier).setStatus(SessionStatus.executing);
     final settings = ref.read(settingsProvider);
+    wifi.sendSessionControl('START');
+    if (settings.hapticsEnabled) {
+      HapticFeedback.mediumImpact();
+    }
+    ref.read(sessionProvider.notifier).setStatus(SessionStatus.executing);
     if (settings.keepScreenOn) {
       await WakelockPlus.enable();
     }
@@ -149,7 +154,24 @@ class ExecutionNotifier extends Notifier<ExecutionState> {
             .setStatus(SessionStatus.sectionBreak);
         continue;
       }
-      await wifi.sendCommand(cmd);
+
+      // Try sending via WiFi first, then Bluetooth fallback
+      bool sent = false;
+      if (wifi.isConnected) {
+        await wifi.sendCommand(cmd);
+        sent = true;
+      } else {
+        final bt = ref.read(bluetoothServiceProvider);
+        // Assuming we check if BT is connected here
+        await bt.sendCommand(cmd);
+        sent = true;
+      }
+
+      if (!sent) {
+        // Handle disconnection
+        stop();
+        break;
+      }
 
       if (cmd.type == CommandType.char) {
         _charSent += 1;
@@ -188,6 +210,9 @@ class ExecutionNotifier extends Notifier<ExecutionState> {
   void pause() {
     if (!state.isRunning) return;
     state = state.copyWith(isPaused: true);
+    if (ref.read(settingsProvider).hapticsEnabled) {
+      HapticFeedback.lightImpact();
+    }
     ref.read(wifiServiceProvider).sendSessionControl('PAUSE');
     ref.read(sessionProvider.notifier).setStatus(SessionStatus.paused);
   }
@@ -195,6 +220,9 @@ class ExecutionNotifier extends Notifier<ExecutionState> {
   void resume() {
     if (!state.isRunning) return;
     state = state.copyWith(isPaused: false);
+    if (ref.read(settingsProvider).hapticsEnabled) {
+      HapticFeedback.mediumImpact();
+    }
     ref.read(wifiServiceProvider).sendSessionControl('RESUME');
     _resumeCompleter?.complete();
     ref.read(sessionProvider.notifier).setStatus(SessionStatus.executing);
@@ -204,6 +232,9 @@ class ExecutionNotifier extends Notifier<ExecutionState> {
     if (!state.isRunning) return;
     _stopRequested = true;
     state = state.copyWith(isRunning: false, isPaused: false);
+    if (ref.read(settingsProvider).hapticsEnabled) {
+      HapticFeedback.lightImpact();
+    }
     ref.read(wifiServiceProvider).sendSessionControl('ABORT');
     ref.read(sessionProvider.notifier).setStatus(SessionStatus.aborted);
     WakelockPlus.disable();

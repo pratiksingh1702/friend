@@ -13,6 +13,9 @@ enum MessageType {
   ocrResult,
   roleChange,
   deviceRegistry,
+  statusUpdate,
+  liveTextSync,
+  aiCompletion,
   unsupported,
 }
 
@@ -47,6 +50,12 @@ extension MessageTypeWire on MessageType {
         return 'role_change';
       case MessageType.deviceRegistry:
         return 'device_registry';
+      case MessageType.statusUpdate:
+        return 'status_update';
+      case MessageType.liveTextSync:
+        return 'live_text_sync';
+      case MessageType.aiCompletion:
+        return 'ai_completion';
       case MessageType.unsupported:
         return 'unsupported';
     }
@@ -83,6 +92,12 @@ MessageType messageTypeFromWire(String? value) {
       return MessageType.roleChange;
     case 'device_registry':
       return MessageType.deviceRegistry;
+    case 'status_update':
+      return MessageType.statusUpdate;
+    case 'live_text_sync':
+      return MessageType.liveTextSync;
+    case 'ai_completion':
+      return MessageType.aiCompletion;
     case 'unsupported':
       return MessageType.unsupported;
     default:

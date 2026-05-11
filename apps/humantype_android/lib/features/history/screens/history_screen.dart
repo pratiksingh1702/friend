@@ -116,18 +116,23 @@ class _EmptyHistoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(HumanTypeSpacing.lg),
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: HumanTypeSpacing.xxxl, horizontal: HumanTypeSpacing.lg),
       decoration: BoxDecoration(
-        color: HumanTypeColors.bgElevated,
-        borderRadius: BorderRadius.circular(16),
+        color: HumanTypeColors.bgSecondary,
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(color: HumanTypeColors.borderSubtle),
       ),
-      child: Row(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.history, color: Colors.white70),
-          const SizedBox(width: HumanTypeSpacing.md),
-          Expanded(
-            child: Text(message, style: HumanTypeText.body),
+          Icon(Icons.history_outlined,
+              size: 48, color: HumanTypeColors.borderStrong),
+          const SizedBox(height: HumanTypeSpacing.lg),
+          Text(
+            message,
+            style: HumanTypeText.bodyLarge.copyWith(color: Colors.white60),
+            textAlign: TextAlign.center,
           ),
         ],
       ),

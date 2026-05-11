@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
+import 'package:humantype_shared/models/ai_models.dart';
 
 import '../../../core/theme.dart';
 import '../../../core/widgets/human_type_scaffold.dart';
@@ -49,6 +50,7 @@ class ExecutionScreen extends ConsumerWidget {
             style: HumanTypeText.bodySmall,
           ),
           const SizedBox(height: HumanTypeSpacing.xs),
+          Text(
             '${execution.estimatedSecondsRemaining}s remaining · '
             '${execution.currentWpm.toStringAsFixed(1)} WPM',
             style: HumanTypeText.bodySmall,
@@ -230,6 +232,43 @@ class _OcrLivePanel extends ConsumerWidget {
             style: HumanTypeText.mono.copyWith(fontSize: 12),
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
+          ),
+          if (ocr.isProcessing)
+            const Padding(
+              padding: EdgeInsets.only(top: 8),
+              child: LinearProgressIndicator(minHeight: 2),
+            ),
+          if (ocr.aiResponse != null) ...[
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: HumanTypeColors.bgSecondary,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Text(
+                ocr.aiResponse!,
+                style: HumanTypeText.bodySmall.copyWith(color: Colors.white),
+              ),
+            ),
+          ],
+          const SizedBox(height: 12),
+          SizedBox(
+            width: double.infinity,
+            child: TextButton.icon(
+              onPressed: ocr.isProcessing
+                  ? null
+                  : () => ref
+                      .read(ocrProvider.notifier)
+                      .askAi(AiTaskType.ocrAnalysis, customIntent: 'Explain this text concisely.'),
+              icon: const Icon(Icons.psychology, size: 16),
+              label: Text(ocr.isProcessing ? 'THINKING...' : 'ASK AI',
+                  style: HumanTypeText.caption),
+              style: TextButton.styleFrom(
+                backgroundColor: HumanTypeColors.bgOverlay,
+                padding: const EdgeInsets.symmetric(vertical: 8),
+              ),
+            ),
           ),
         ],
       ),

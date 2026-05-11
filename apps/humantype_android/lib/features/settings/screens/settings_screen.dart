@@ -35,6 +35,14 @@ class SettingsScreen extends ConsumerWidget {
             onChanged: (value) =>
                 ref.read(settingsProvider.notifier).setHapticsEnabled(value),
           ),
+          const SizedBox(height: HumanTypeSpacing.sm),
+          _SettingsTile(
+            title: 'Stealth mode',
+            subtitle: 'Hide the Windows HUD from screen-sharing and recordings.',
+            value: settings.stealthMode,
+            onChanged: (value) =>
+                ref.read(settingsProvider.notifier).setStealthMode(value),
+          ),
           const SizedBox(height: HumanTypeSpacing.xl),
           Text('AI features', style: HumanTypeText.heading1),
           const SizedBox(height: HumanTypeSpacing.lg),
@@ -45,17 +53,47 @@ class SettingsScreen extends ConsumerWidget {
             onChanged: (value) =>
                 ref.read(settingsProvider.notifier).setAiEnabled(value),
           ),
-          const SizedBox(height: HumanTypeSpacing.sm),
+          DropdownButtonFormField<AiProvider>(
+            value: settings.selectedAiProvider,
+            dropdownColor: HumanTypeColors.bgElevated,
+            decoration: const InputDecoration(labelText: 'AI Provider'),
+            items: AiProvider.values
+                .map((p) => DropdownMenuItem(
+                      value: p,
+                      child: Text(p.name.toUpperCase()),
+                    ))
+                .toList(),
+            onChanged: (value) {
+              if (value != null) {
+                ref.read(settingsProvider.notifier).setAiProvider(value);
+              }
+            },
+          ),
+          const SizedBox(height: HumanTypeSpacing.md),
           TextField(
             obscureText: true,
             enableSuggestions: false,
             autocorrect: false,
-            decoration: const InputDecoration(
-              labelText: 'Claude API key',
+            decoration: InputDecoration(
+              labelText:
+                  '${settings.selectedAiProvider.name.toUpperCase()} API key',
               hintText: 'Paste your API key',
             ),
-            onChanged: (value) =>
-                ref.read(settingsProvider.notifier).setAiApiKey(value.trim()),
+            onChanged: (value) {
+              final notifier = ref.read(settingsProvider.notifier);
+              final key = value.trim();
+              switch (settings.selectedAiProvider) {
+                case AiProvider.gemini:
+                  notifier.setGeminiApiKey(key);
+                  break;
+                case AiProvider.claude:
+                  notifier.setClaudeApiKey(key);
+                  break;
+                case AiProvider.openai:
+                  notifier.setOpenAiApiKey(key);
+                  break;
+              }
+            },
           ),
           const SizedBox(height: HumanTypeSpacing.xl),
           Text('History', style: HumanTypeText.heading1),

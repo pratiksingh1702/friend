@@ -6,6 +6,8 @@ import '../../../core/router.dart';
 import '../../../core/theme.dart';
 import '../../../core/widgets/human_type_scaffold.dart';
 import '../../connect/providers/connection_provider.dart';
+import '../../connect/services/wifi_service.dart';
+import '../../settings/providers/settings_provider.dart';
 import '../widgets/connection_status_chip.dart';
 
 class HomeScreen extends ConsumerWidget {
@@ -25,6 +27,21 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final connection = ref.watch(connectionProvider);
+
+    // Show onboarding on first run or auto-connect
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final settings = ref.read(settingsProvider);
+      if (settings.isFirstRun) {
+        ref.read(settingsProvider.notifier).setFirstRun(false);
+        context.go(AppRoutes.onboarding);
+      } else {
+        // Auto-connect to last host if available
+        final wifi = ref.read(wifiServiceProvider);
+        if (!wifi.isConnected && wifi.lastHost != null) {
+          wifi.autoConnect().catchError((_) {});
+        }
+      }
+    });
 
     return HumanTypeScaffold(
       actions: [

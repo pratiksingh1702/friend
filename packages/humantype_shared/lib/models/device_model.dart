@@ -7,6 +7,7 @@ class DeviceInfo {
     required this.deviceId,
     required this.deviceType,
     required this.currentRole,
+    this.name,
     this.platform,
     this.appVersion,
     this.protocolVersion,
@@ -15,18 +16,21 @@ class DeviceInfo {
   final String deviceId;
   final DeviceType deviceType;
   final DeviceRole currentRole;
+  final String? name;
   final String? platform;
   final String? appVersion;
   final String? protocolVersion;
 
   factory DeviceInfo.android({
     required String deviceId,
+    String? name,
     DeviceRole currentRole = DeviceRole.controller,
     String? appVersion,
     String? protocolVersion,
   }) {
     return DeviceInfo(
       deviceId: deviceId,
+      name: name,
       deviceType: DeviceType.android,
       currentRole: currentRole,
       platform: 'android',
@@ -37,12 +41,14 @@ class DeviceInfo {
 
   factory DeviceInfo.windows({
     required String deviceId,
+    String? name,
     DeviceRole currentRole = DeviceRole.passive,
     String? appVersion,
     String? protocolVersion,
   }) {
     return DeviceInfo(
       deviceId: deviceId,
+      name: name,
       deviceType: DeviceType.windows,
       currentRole: currentRole,
       platform: 'windows',
@@ -53,12 +59,14 @@ class DeviceInfo {
 
   factory DeviceInfo.bridge({
     required String deviceId,
+    String? name,
     DeviceRole currentRole = DeviceRole.executor,
     String? appVersion,
     String? protocolVersion,
   }) {
     return DeviceInfo(
       deviceId: deviceId,
+      name: name,
       deviceType: DeviceType.bridge,
       currentRole: currentRole,
       platform: 'bridge',
@@ -70,6 +78,7 @@ class DeviceInfo {
   factory DeviceInfo.fromJson(Map<String, dynamic> json) {
     return DeviceInfo(
       deviceId: json['device_id'] as String? ?? '',
+      name: json['name'] as String?,
       deviceType: deviceTypeFromString(json['device_type'] as String?),
       currentRole: deviceRoleFromString(json['current_role'] as String?),
       platform: json['platform'] as String?,
@@ -81,6 +90,7 @@ class DeviceInfo {
   Map<String, dynamic> toJson() {
     return {
       'device_id': deviceId,
+      if (name != null) 'name': name,
       'device_type': deviceTypeToString(deviceType),
       'current_role': deviceRoleToString(currentRole),
       if (platform != null) 'platform': platform,
@@ -91,6 +101,7 @@ class DeviceInfo {
 
   DeviceInfo copyWith({
     String? deviceId,
+    String? name,
     DeviceType? deviceType,
     DeviceRole? currentRole,
     String? platform,
@@ -99,6 +110,7 @@ class DeviceInfo {
   }) {
     return DeviceInfo(
       deviceId: deviceId ?? this.deviceId,
+      name: name ?? this.name,
       deviceType: deviceType ?? this.deviceType,
       currentRole: currentRole ?? this.currentRole,
       platform: platform ?? this.platform,

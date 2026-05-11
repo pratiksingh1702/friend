@@ -11,10 +11,13 @@ class AppSettings {
     required this.aiEnabled,
     required this.historyEnabled,
     required this.autoReconnect,
+    required this.isFirstRun,
+    required this.stealthMode,
     required this.selectedAiProvider,
     required this.geminiApiKey,
     required this.claudeApiKey,
     required this.openaiApiKey,
+    required this.serverIp,
   });
 
   final bool keepScreenOn;
@@ -22,10 +25,13 @@ class AppSettings {
   final bool aiEnabled;
   final bool historyEnabled;
   final bool autoReconnect;
+  final bool isFirstRun;
+  final bool stealthMode;
   final AiProvider selectedAiProvider;
   final String geminiApiKey;
   final String claudeApiKey;
   final String openaiApiKey;
+  final String serverIp;
 
   factory AppSettings.defaults() {
     return const AppSettings(
@@ -34,10 +40,13 @@ class AppSettings {
       aiEnabled: false,
       historyEnabled: false,
       autoReconnect: true,
+      isFirstRun: true,
+      stealthMode: false,
       selectedAiProvider: AiProvider.gemini,
       geminiApiKey: '',
       claudeApiKey: '',
       openaiApiKey: '',
+      serverIp: '192.168.1.61',
     );
   }
 
@@ -47,10 +56,13 @@ class AppSettings {
     bool? aiEnabled,
     bool? historyEnabled,
     bool? autoReconnect,
+    bool? isFirstRun,
+    bool? stealthMode,
     AiProvider? selectedAiProvider,
     String? geminiApiKey,
     String? claudeApiKey,
     String? openaiApiKey,
+    String? serverIp,
   }) {
     return AppSettings(
       keepScreenOn: keepScreenOn ?? this.keepScreenOn,
@@ -58,10 +70,13 @@ class AppSettings {
       aiEnabled: aiEnabled ?? this.aiEnabled,
       historyEnabled: historyEnabled ?? this.historyEnabled,
       autoReconnect: autoReconnect ?? this.autoReconnect,
+      isFirstRun: isFirstRun ?? this.isFirstRun,
+      stealthMode: stealthMode ?? this.stealthMode,
       selectedAiProvider: selectedAiProvider ?? this.selectedAiProvider,
       geminiApiKey: geminiApiKey ?? this.geminiApiKey,
       claudeApiKey: claudeApiKey ?? this.claudeApiKey,
       openaiApiKey: openaiApiKey ?? this.openaiApiKey,
+      serverIp: serverIp ?? this.serverIp,
     );
   }
 }
@@ -90,6 +105,15 @@ class SettingsNotifier extends Notifier<AppSettings> {
     _sync('connection.auto_reconnect', value);
   }
 
+  void setFirstRun(bool value) {
+    state = state.copyWith(isFirstRun: value);
+  }
+
+  void setStealthMode(bool value) {
+    state = state.copyWith(stealthMode: value);
+    _sync('overlay.stealth_mode', value);
+  }
+
   void setAiProvider(AiProvider provider) {
     state = state.copyWith(selectedAiProvider: provider);
   }
@@ -104,6 +128,10 @@ class SettingsNotifier extends Notifier<AppSettings> {
 
   void setOpenAiApiKey(String value) {
     state = state.copyWith(openaiApiKey: value);
+  }
+
+  void setServerIp(String value) {
+    state = state.copyWith(serverIp: value);
   }
 
   void setHistoryEnabled(bool value) {
@@ -127,6 +155,9 @@ class SettingsNotifier extends Notifier<AppSettings> {
         break;
       case 'history.enabled':
         if (value is bool) state = state.copyWith(historyEnabled: value);
+        break;
+      case 'overlay.stealth_mode':
+        if (value is bool) state = state.copyWith(stealthMode: value);
         break;
     }
   }

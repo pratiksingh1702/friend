@@ -7,8 +7,11 @@ import '../../../core/router.dart';
 import '../../../core/theme.dart';
 import '../../../core/widgets/human_type_scaffold.dart';
 import '../../settings/providers/settings_provider.dart';
+import '../../settings/providers/ai_provider.dart';
+import '../../connect/services/wifi_service.dart';
 import '../providers/execution_provider.dart';
 import '../providers/session_provider.dart';
+import '../providers/ocr_provider.dart';
 import '../services/instruction_parser.dart';
 import '../widgets/section_builder_sheet.dart';
 import '../widgets/section_card.dart';
@@ -23,9 +26,25 @@ class TextModeScreen extends ConsumerStatefulWidget {
 class _TextModeScreenState extends ConsumerState<TextModeScreen> {
   final _instructionController = TextEditingController();
   final _parser = InstructionParser();
+  List<String> _aiSuggestions = [];
+  bool _isAiLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _instructionController.addListener(_onTextChanged);
+  }
+
+  void _onTextChanged() {
+    final text = _instructionController.text;
+    ref.read(wifiServiceProvider).sendLiveText(text);
+    
+    // Simple debounced autocomplete trigger could go here
+  }
 
   @override
   void dispose() {
+    _instructionController.removeListener(_onTextChanged);
     _instructionController.dispose();
     super.dispose();
   }
@@ -33,102 +52,192 @@ class _TextModeScreenState extends ConsumerState<TextModeScreen> {
   @override
   Widget build(BuildContext context) {
     final session = ref.watch(sessionProvider);
+    final aiState = ref.watch(ocrProvider);
 
     return HumanTypeScaffold(
       title: 'Text Mode',
       showBack: true,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('AI instructions', style: HumanTypeText.heading1),
-          const SizedBox(height: HumanTypeSpacing.sm),
-          Text(
-            'Describe what to type and how. We will turn it into sections.',
-            style: HumanTypeText.bodySmall,
-          ),
-          const SizedBox(height: HumanTypeSpacing.lg),
-          TextField(
-            controller: _instructionController,
-            maxLines: 3,
-            decoration: const InputDecoration(
-              hintText: 'Type the name slowly, then fill the essay.',
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('AI instructions', style: HumanTypeText.heading1),
+                if (_isAiLoading)
+                  const SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+              ],
             ),
-          ),
-          const SizedBox(height: HumanTypeSpacing.md),
-          OutlinedButton.icon(
-            onPressed: _parseInstruction,
-            icon: const Icon(Icons.auto_fix_high),
-            label: const Text('Parse instruction'),
-          ),
-          const SizedBox(height: HumanTypeSpacing.xl),
-          Text('Sections', style: HumanTypeText.heading1),
-          const SizedBox(height: HumanTypeSpacing.sm),
-          Text(
-            'Build your typing session section by section.',
-            style: HumanTypeText.bodySmall,
-          ),
-          const SizedBox(height: HumanTypeSpacing.lg),
-          if (session.sections.isEmpty)
-            _EmptySectionCard(onAdd: () => _showSectionSheet(context, ref))
-          else
-            Column(
-              children: session.sections
-                  .map(
-                    (section) => SectionCard(
-                      section: section,
-                      onEdit: () => _showSectionSheet(
-                        context,
-                        ref,
-                        initial: section,
-                      ),
-                      onDelete: () => ref
-                          .read(sessionProvider.notifier)
-                          .removeSection(section.id),
-                    ),
-                  )
-                  .toList(),
+            const SizedBox(height: HumanTypeSpacing.sm),
+            Text(
+              'Describe what to type and how. We will turn it into sections.',
+              style: HumanTypeText.bodySmall,
             ),
-          const SizedBox(height: HumanTypeSpacing.xl),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: () => _showSectionSheet(context, ref),
-                  icon: const Icon(Icons.add),
-                  label: const Text('New section'),
+            const SizedBox(height: HumanTypeSpacing.lg),
+            TextField(
+              controller: _instructionController,
+              maxLines: 3,
+              decoration: InputDecoration(
+                hintText: 'Type the name slowly, then fill the essay.',
+                suffixIcon: IconButton(
+                  icon: const Icon(Icons.auto_fix_high, color: Colors.blue),
+                  onPressed: _getAiSuggestions,
                 ),
               ),
-              const SizedBox(width: HumanTypeSpacing.md),
-              Expanded(
-                child: ElevatedButton.icon(
-                  onPressed: session.sections.isEmpty
-                      ? null
-                      : () async {
-                          await ref
-                              .read(executionProvider.notifier)
-                              .buildQueue(session.sections);
-                          if (context.mounted) {
-                            context.push(AppRoutes.execution);
-                          }
-                        },
-                  icon: const Icon(Icons.play_arrow),
-                  label: const Text('Build session'),
+            ),
+            if (_aiSuggestions.isNotEmpty) ...[
+              const SizedBox(height: HumanTypeSpacing.sm),
+              SizedBox(
+                height: 40,
+                child: ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: _aiSuggestions.length,
+                  separatorBuilder: (_, __) => const SizedBox(width: 8),
+                  itemBuilder: (context, index) => ActionChip(
+                    label: Text(_aiSuggestions[index]),
+                    onPressed: () {
+                      _instructionController.text = _aiSuggestions[index];
+                      setState(() => _aiSuggestions = []);
+                    },
+                  ),
                 ),
               ),
             ],
-          ),
-        ],
+            const SizedBox(height: HumanTypeSpacing.md),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: _parseInstruction,
+                    icon: const Icon(Icons.auto_fix_high),
+                    label: const Text('Parse instruction'),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                IconButton(
+                  onPressed: _improveWithAi,
+                  icon: const Icon(Icons.trending_up, color: Colors.green),
+                  tooltip: 'Improve with AI',
+                ),
+              ],
+            ),
+            const SizedBox(height: HumanTypeSpacing.xl),
+            Text('Sections', style: HumanTypeText.heading1),
+            const SizedBox(height: HumanTypeSpacing.sm),
+            Text(
+              'Build your typing session section by section.',
+              style: HumanTypeText.bodySmall,
+            ),
+            const SizedBox(height: HumanTypeSpacing.lg),
+            if (session.sections.isEmpty)
+              _EmptySectionCard(onAdd: () => _showSectionSheet(context, ref))
+            else
+              Column(
+                children: session.sections
+                    .map(
+                      (section) => SectionCard(
+                        section: section,
+                        onEdit: () => _showSectionSheet(
+                          context,
+                          ref,
+                          initial: section,
+                        ),
+                        onDelete: () => ref
+                            .read(sessionProvider.notifier)
+                            .removeSection(section.id),
+                      ),
+                    )
+                    .toList(),
+              ),
+            const SizedBox(height: HumanTypeSpacing.xl),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: () => _showSectionSheet(context, ref),
+                    icon: const Icon(Icons.add),
+                    label: const Text('New section'),
+                  ),
+                ),
+                const SizedBox(width: HumanTypeSpacing.md),
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: session.sections.isEmpty
+                        ? null
+                        : () async {
+                            await ref
+                                .read(executionProvider.notifier)
+                                .buildQueue(session.sections);
+                            if (context.mounted) {
+                              context.push(AppRoutes.execution);
+                            }
+                          },
+                    icon: const Icon(Icons.play_arrow),
+                    label: const Text('Build session'),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
     );
+  }
+
+  Future<void> _getAiSuggestions() async {
+    final input = _instructionController.text;
+    if (input.isEmpty) return;
+
+    setState(() => _isAiLoading = true);
+    try {
+      final aiService = ref.read(aiServiceProvider);
+      if (aiService != null) {
+        final response = await aiService.processRequest(
+          AiRequest(text: input, task: AiTaskType.autocomplete),
+        );
+        setState(() {
+          _aiSuggestions = response.suggestions;
+          _isAiLoading = false;
+        });
+      }
+    } catch (e) {
+      setState(() => _isAiLoading = false);
+    }
+  }
+
+  Future<void> _improveWithAi() async {
+    final input = _instructionController.text;
+    if (input.isEmpty) return;
+
+    setState(() => _isAiLoading = true);
+    try {
+      final aiService = ref.read(aiServiceProvider);
+      if (aiService != null) {
+        final response = await aiService.processRequest(
+          AiRequest(text: input, task: AiTaskType.improve),
+        );
+        if (response.result != null) {
+          _instructionController.text = response.result!;
+        }
+      }
+    } catch (_) {}
+    setState(() => _isAiLoading = false);
   }
 
   Future<void> _parseInstruction() async {
     final input = _instructionController.text.trim();
     if (input.isEmpty) return;
     final settings = ref.read(settingsProvider);
+    final aiService = ref.read(aiServiceProvider);
     final sections = await _parser.parse(
       input,
-      aiEnabled: settings.aiEnabled,
+      aiService: aiService,
     );
     if (!mounted) return;
     if (sections.isEmpty) {

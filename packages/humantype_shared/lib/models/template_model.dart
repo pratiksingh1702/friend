@@ -7,6 +7,7 @@ class TemplateModel {
     required this.description,
     required this.sections,
     required this.tags,
+    this.fieldMapId,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -16,6 +17,7 @@ class TemplateModel {
   final String description;
   final List<Section> sections;
   final List<String> tags;
+  final String? fieldMapId;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -26,6 +28,7 @@ class TemplateModel {
       'description': description,
       'sections': sections.map((section) => section.toJson()).toList(),
       'tags': tags,
+      'fieldMapId': fieldMapId,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
     };
@@ -43,6 +46,7 @@ class TemplateModel {
           )
           .toList(),
       tags: ((json['tags'] as List?) ?? const []).cast<String>(),
+      fieldMapId: json['fieldMapId'] as String?,
       createdAt: _parseDate(json['createdAt'] as String?),
       updatedAt: _parseDate(json['updatedAt'] as String?),
     );
@@ -54,6 +58,7 @@ class TemplateModel {
     String? description,
     List<Section>? sections,
     List<String>? tags,
+    String? fieldMapId,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) {
@@ -63,6 +68,7 @@ class TemplateModel {
       description: description ?? this.description,
       sections: sections ?? this.sections,
       tags: tags ?? this.tags,
+      fieldMapId: fieldMapId ?? this.fieldMapId,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

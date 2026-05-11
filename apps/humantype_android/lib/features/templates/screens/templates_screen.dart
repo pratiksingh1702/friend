@@ -196,25 +196,23 @@ class _EmptyTemplateCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(HumanTypeSpacing.lg),
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: HumanTypeSpacing.xxxl, horizontal: HumanTypeSpacing.lg),
       decoration: BoxDecoration(
-        color: HumanTypeColors.bgElevated,
-        borderRadius: BorderRadius.circular(16),
+        color: HumanTypeColors.bgSecondary,
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(color: HumanTypeColors.borderSubtle),
       ),
-      child: Row(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.inventory_2_outlined, color: Colors.white70),
-          const SizedBox(width: HumanTypeSpacing.md),
-          Expanded(
-            child: Text(
-              'No templates yet. Create your first one.',
-              style: HumanTypeText.body,
-            ),
-          ),
-          IconButton(
-            onPressed: onCreate,
-            icon: const Icon(Icons.add, color: Colors.white70),
+          Icon(Icons.inventory_2_outlined,
+              size: 48, color: HumanTypeColors.borderStrong),
+          const SizedBox(height: HumanTypeSpacing.lg),
+          Text(
+            'No templates yet. Create your first one to speed up your workflow.',
+            style: HumanTypeText.bodyLarge.copyWith(color: Colors.white60),
+            textAlign: TextAlign.center,
           ),
         ],
       ),

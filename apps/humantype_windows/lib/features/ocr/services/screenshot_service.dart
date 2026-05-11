@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/services.dart';
-import 'package:screen_retriever/screen_retriever.dart';
+import 'package:screen_capturer/screen_capturer.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
@@ -9,16 +9,19 @@ class ScreenshotService {
   static Future<String?> captureScreen() async {
     try {
       final Directory tempDir = await getTemporaryDirectory();
-      final String path = p.join(tempDir.path, 'screen_capture_${DateTime.now().millisecondsSinceEpoch}.png');
+      final String path = p.join(tempDir.path, 'ocr_capture_${DateTime.now().millisecondsSinceEpoch}.png');
       
-      // Use screen_retriever to capture
-      // Note: screen_retriever captureScreen is often used for getting Display info
-      // For actual capture, we might need to use a different method if it's not implemented yet
-      // However, we follow the spec.
+      final CapturedData? capturedData = await screenCapturer.capture(
+        mode: CaptureMode.screen,
+        imagePath: path,
+        silent: true,
+      );
+
+      if (capturedData == null || capturedData.imagePath == null) {
+        return null;
+      }
       
-      // Placeholder for actual capture logic if screen_retriever doesn't support direct file save
-      // In many cases, we use MethodChannels for native Windows capture
-      return path; 
+      return capturedData.imagePath;
     } catch (e) {
       print('[ScreenshotService] Error: $e');
       return null;
@@ -26,9 +29,21 @@ class ScreenshotService {
   }
 
   /// Captures a specific area of the screen.
-  static Future<Uint8List?> captureArea(Rect area) async {
-    // This would typically involve native code or a plugin that supports area capture
-    // For now, we define the interface.
-    return null;
+  static Future<String?> captureArea(Rect area) async {
+    try {
+      final Directory tempDir = await getTemporaryDirectory();
+      final String path = p.join(tempDir.path, 'ocr_area_${DateTime.now().millisecondsSinceEpoch}.png');
+
+      final CapturedData? capturedData = await screenCapturer.capture(
+        mode: CaptureMode.region, // Region mode usually opens a selector, but we might want silent background capture
+        imagePath: path,
+        silent: true,
+      );
+
+      return capturedData?.imagePath;
+    } catch (e) {
+      print('[ScreenshotService] Error: $e');
+      return null;
+    }
   }
 }

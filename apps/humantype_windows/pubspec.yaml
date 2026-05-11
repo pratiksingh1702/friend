@@ -64,6 +64,7 @@ dependencies:
   uuid: ^4.3.3
   crypto: ^3.0.3
   intl: any
+  screen_capturer: ^0.2.3
 
 dev_dependencies:
   flutter_test:

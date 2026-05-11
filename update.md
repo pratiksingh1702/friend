@@ -41,3 +41,4 @@ Date: 2026-05-11
 - Shared package now exports all models and protocol types via humantype_shared.dart.
 - Date parsing in shared models now handles missing timestamps safely.
 - Connection status chip now explicitly references shared connection enums.
+- Master task.md synchronized with all phases for Android, Windows, and Bridge.

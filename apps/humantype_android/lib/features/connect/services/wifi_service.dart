@@ -37,22 +37,44 @@ class WiFiService {
   MessageRouter get router => _router;
 
   bool get isConnected => _channel != null;
+  String? get lastHost => _lastHost;
+
+  Future<void> autoConnect() async {
+    if (_lastHost != null && !isConnected) {
+      await connect(_lastHost!);
+    }
+  }
 
   Future<void> connect(String host,
       {int port = AppConstants.defaultWsPort}) async {
+    // Prevent connecting to localhost on Android
+    if (host == '127.0.0.1' || host == 'localhost') {
+      final settings = _ref.read(settingsProvider);
+      host = settings.serverIp;
+    }
+    
     _lastHost = host;
     final uri = Uri.parse('ws://$host:$port');
+    
     try {
       _deviceId ??= await _identity.getDeviceId();
       final pairingToken = await _pairing.getOrCreateToken(host);
 
+      // Timeout for connection attempt
       _channel = WebSocketChannel.connect(uri);
+      
+      // We wrap the listener to handle initial connection errors better
       _sub = _channel!.stream.listen(
         _onMessage,
         onDone: _onDisconnected,
-        onError: (_) => _onDisconnected(),
+        onError: (e) {
+          _onDisconnected();
+          // Log or notify about connection error
+        },
+        cancelOnError: true,
       );
 
+      // Send initial handshake
       final deviceInfo = DeviceInfo.android(
         deviceId: _deviceId!,
         appVersion: AppConstants.appVersion,
@@ -82,7 +104,7 @@ class WiFiService {
       _startHeartbeat(deviceInfo);
     } catch (e) {
       _onDisconnected();
-      rethrow;
+      throw Exception('Failed to connect to $host:$port. Error: $e');
     }
   }
 
@@ -231,6 +253,18 @@ class WiFiService {
           'new_value': value,
           'source_device': 'android',
         },
+      ),
+    );
+  }
+
+  void sendLiveText(String text) {
+    if (_channel == null || _deviceId == null) return;
+    _send(
+      WsMessage(
+        type: MessageType.liveTextSync,
+        sender: DeviceInfo.android(deviceId: _deviceId!),
+        target: MessageTarget.broadcast,
+        payload: {'text': text},
       ),
     );
   }

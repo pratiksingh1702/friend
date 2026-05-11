@@ -1,0 +1,73 @@
+../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:85:10: Error: Type 'AiResponse' not found.
+  Future<AiResponse> processRequest(AiRequest request) async {
+         ^^^^^^^^^^
+../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:85:37: Error: Type 'AiRequest' not found.
+  Future<AiResponse> processRequest(AiRequest request) async {
+                                    ^^^^^^^^^
+../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:85:37: Error: 'AiRequest' isn't a type.
+  Future<AiResponse> processRequest(AiRequest request) async {
+                                    ^^^^^^^^^
+../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:88:12: Error: Not a constant expression.
+      case AiTaskType.autocomplete:
+           ^^^^^^^^^^
+../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:91:12: Error: Not a constant expression.
+      case AiTaskType.rewrite:
+           ^^^^^^^^^^
+../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:94:12: Error: Not a constant expression.
+      case AiTaskType.improve:
+           ^^^^^^^^^^
+../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:97:12: Error: Not a constant expression.
+      case AiTaskType.quickReply:
+           ^^^^^^^^^^
+../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:100:12: Error: Not a constant expression.
+      case AiTaskType.ocrAnalysis:
+           ^^^^^^^^^^
+../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:119:31: Error: The getter 'AiTaskType' isn't
+defined for the type 'GeminiApiService'.
+ - 'GeminiApiService' is from 'package:humantype_shared/ai_engine/gemini_api_service.dart'
+ ('../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'AiTaskType'.
+          if (request.task == AiTaskType.autocomplete || request.task == AiTaskType.quickReply)
+                              ^^^^^^^^^^
+../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:119:74: Error: The getter 'AiTaskType' isn't
+defined for the type 'GeminiApiService'.
+ - 'GeminiApiService' is from 'package:humantype_shared/ai_engine/gemini_api_service.dart'
+ ('../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'AiTaskType'.
+          if (request.task == AiTaskType.autocomplete || request.task == AiTaskType.quickReply)
+                                                                         ^^^^^^^^^^
+../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:135:25: Error: The getter 'AiTaskType' isn't
+defined for the type 'GeminiApiService'.
+ - 'GeminiApiService' is from 'package:humantype_shared/ai_engine/gemini_api_service.dart'
+ ('../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'AiTaskType'.
+    if (request.task == AiTaskType.autocomplete || request.task == AiTaskType.quickReply) {
+                        ^^^^^^^^^^
+../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:135:68: Error: The getter 'AiTaskType' isn't
+defined for the type 'GeminiApiService'.
+ - 'GeminiApiService' is from 'package:humantype_shared/ai_engine/gemini_api_service.dart'
+ ('../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart').
+Try correcting the name to the name of an existing getter, or defining a getter or field named 'AiTaskType'.
+    if (request.task == AiTaskType.autocomplete || request.task == AiTaskType.quickReply) {
+                                                                   ^^^^^^^^^^
+../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:139:18: Error: The method 'AiResponse' isn't
+defined for the type 'GeminiApiService'.
+ - 'GeminiApiService' is from 'package:humantype_shared/ai_engine/gemini_api_service.dart'
+ ('../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart').
+Try correcting the name to the name of an existing method, or defining a method named 'AiResponse'.
+          return AiResponse(suggestions: decoded.cast<String>());
+                 ^^^^^^^^^^
+../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:141:18: Error: The method 'AiResponse' isn't
+defined for the type 'GeminiApiService'.
+ - 'GeminiApiService' is from 'package:humantype_shared/ai_engine/gemini_api_service.dart'
+ ('../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart').
+Try correcting the name to the name of an existing method, or defining a method named 'AiResponse'.
+          return AiResponse(suggestions: (decoded['suggestions'] as List).cast<String>());
+                 ^^^^^^^^^^
+../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:146:12: Error: The method 'AiResponse' isn't
+defined for the type 'GeminiApiService'.
+ - 'GeminiApiService' is from 'package:humantype_shared/ai_engine/gemini_api_service.dart'
+ ('../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart').
+Try correcting the name to the name of an existing method, or defining a method named 'AiResponse'.
+    return AiResponse(suggestions: [], result: resultText);
+           ^^^^^^^^^^

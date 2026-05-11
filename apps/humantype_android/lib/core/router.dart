@@ -9,6 +9,7 @@ import '../features/settings/screens/settings_screen.dart';
 import '../features/templates/screens/templates_screen.dart';
 import '../features/text_mode/screens/text_mode_screen.dart';
 import '../features/text_mode/screens/execution_screen.dart';
+import '../features/home/screens/onboarding_screen.dart';
 
 class AppRoutes {
   static const home = '/';
@@ -19,6 +20,7 @@ class AppRoutes {
   static const templates = '/templates';
   static const history = '/history';
   static const settings = '/settings';
+  static const onboarding = '/onboarding';
 }
 
 final appRouter = GoRouter(
@@ -55,6 +57,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.settings,
       builder: (context, state) => const SettingsScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.onboarding,
+      builder: (context, state) => const OnboardingScreen(),
     ),
   ],
   errorBuilder: (context, state) => const _RouteErrorScreen(),
