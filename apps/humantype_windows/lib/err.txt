@@ -1,0 +1,53 @@
+══╡ EXCEPTION CAUGHT BY WIDGETS LIBRARY ╞═══════════════════════════════════════════════════════════
+The following assertion was thrown building AppShell(dirty, state: _ConsumerState#a5e1d):
+Either pane or content must be provided
+'package:fluent_ui/src/controls/navigation/navigation_view/view.dart':
+Failed assertion: line 124 pos 10: '(pane != null && content == null) || (pane == null && content !=
+null)'
+
+The relevant error-causing widget was:
+  AppShell
+  AppShell:file:///D:/flutter_projects/friend/apps/humantype_windows/lib/core/router.dart:18:16
+
+When the exception was thrown, this was the stack:
+#2      new NavigationView (package:fluent_ui/src/controls/navigation/navigation_view/view.dart:124:10)
+#3      AppShell.build (package:humantype_windows/core/router.dart:51:12)
+#4      _ConsumerState.build (package:flutter_riverpod/src/consumer.dart:476:19)
+#5      StatefulElement.build (package:flutter/src/widgets/framework.dart:5931:27)
+#6      ConsumerStatefulElement.build (package:flutter_riverpod/src/consumer.dart:539:20)
+#7      ComponentElement.performRebuild (package:flutter/src/widgets/framework.dart:5817:15)
+#8      StatefulElement.performRebuild (package:flutter/src/widgets/framework.dart:5982:11)
+#9      Element.rebuild (package:flutter/src/widgets/framework.dart:5529:7)
+#10     ComponentElement._firstBuild (package:flutter/src/widgets/framework.dart:5799:5)
+#11     StatefulElement._firstBuild (package:flutter/src/widgets/framework.dart:5973:11)
+#12     ComponentElement.mount (package:flutter/src/widgets/framework.dart:5793:5)
+...     Normal element mounting (166 frames)
+#178    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4587:20)
+#179    MultiChildRenderObjectElement.inflateWidget (package:flutter/src/widgets/framework.dart:7264:36)
+#180    MultiChildRenderObjectElement.mount (package:flutter/src/widgets/framework.dart:7279:32)
+...     Normal element mounting (129 frames)
+#309    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4587:20)
+#310    MultiChildRenderObjectElement.inflateWidget (package:flutter/src/widgets/framework.dart:7264:36)
+#311    MultiChildRenderObjectElement.mount (package:flutter/src/widgets/framework.dart:7279:32)
+...     Normal element mounting (383 frames)
+#694    _UncontrolledProviderScopeElement.mount (package:flutter_riverpod/src/framework.dart:315:11)
+...     Normal element mounting (71 frames)
+#765    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4587:20)
+#766    Element.updateChild (package:flutter/src/widgets/framework.dart:4059:18)
+#767    _RawViewElement._updateChild (package:flutter/src/widgets/view.dart:481:16)
+#768    _RawViewElement.mount (package:flutter/src/widgets/view.dart:504:5)
+...     Normal element mounting (15 frames)
+#783    Element.inflateWidget (package:flutter/src/widgets/framework.dart:4587:20)
+#784    Element.updateChild (package:flutter/src/widgets/framework.dart:4059:18)
+#785    RootElement._rebuild (package:flutter/src/widgets/binding.dart:1822:16)
+#786    RootElement.mount (package:flutter/src/widgets/binding.dart:1791:5)
+#787    RootWidget.attach.<anonymous closure> (package:flutter/src/widgets/binding.dart:1744:18)
+#788    BuildOwner.buildScope (package:flutter/src/widgets/framework.dart:3101:19)
+#789    RootWidget.attach (package:flutter/src/widgets/binding.dart:1743:13)
+#790    WidgetsBinding.attachToBuildOwner (package:flutter/src/widgets/binding.dart:1419:27)
+#791    WidgetsBinding.attachRootWidget (package:flutter/src/widgets/binding.dart:1404:5)
+#792    WidgetsBinding.scheduleAttachRootWidget.<anonymous closure> (package:flutter/src/widgets/binding.dart:1390:7)
+#796    _RawReceivePort._handleMessage (dart:isolate-patch/isolate_patch.dart:193:12)
+(elided 5 frames from class _AssertionError, class _Timer, and dart:async-patch)
+
+════════════════════════════════════════════════════════════════════════════════════════════════════

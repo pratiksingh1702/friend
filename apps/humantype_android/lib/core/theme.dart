@@ -49,37 +49,37 @@ class HumanTypeAnimation {
 }
 
 class HumanTypeText {
-  static TextStyle display = GoogleFonts.inter(
+  static TextStyle display = GoogleFonts.sora(
     fontSize: 32,
     fontWeight: FontWeight.w700,
     color: Colors.white,
   );
-  static TextStyle heading1 = GoogleFonts.inter(
+  static TextStyle heading1 = GoogleFonts.sora(
     fontSize: 24,
     fontWeight: FontWeight.w600,
     color: Colors.white,
   );
-  static TextStyle heading2 = GoogleFonts.inter(
+  static TextStyle heading2 = GoogleFonts.sora(
     fontSize: 18,
     fontWeight: FontWeight.w600,
     color: Colors.white,
   );
-  static TextStyle bodyLarge = GoogleFonts.inter(
+  static TextStyle bodyLarge = GoogleFonts.sora(
     fontSize: 16,
     fontWeight: FontWeight.w400,
     color: Colors.white,
   );
-  static TextStyle body = GoogleFonts.inter(
+  static TextStyle body = GoogleFonts.sora(
     fontSize: 14,
     fontWeight: FontWeight.w400,
     color: Colors.white,
   );
-  static TextStyle bodySmall = GoogleFonts.inter(
+  static TextStyle bodySmall = GoogleFonts.sora(
     fontSize: 12,
     fontWeight: FontWeight.w400,
     color: Colors.white70,
   );
-  static TextStyle caption = GoogleFonts.inter(
+  static TextStyle caption = GoogleFonts.sora(
     fontSize: 11,
     fontWeight: FontWeight.w500,
     color: Colors.white70,

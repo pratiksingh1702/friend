@@ -8,11 +8,13 @@ import '../features/home/screens/home_screen.dart';
 import '../features/settings/screens/settings_screen.dart';
 import '../features/templates/screens/templates_screen.dart';
 import '../features/text_mode/screens/text_mode_screen.dart';
+import '../features/text_mode/screens/execution_screen.dart';
 
 class AppRoutes {
   static const home = '/';
   static const connect = '/connect';
   static const textMode = '/text-mode';
+  static const execution = '/execution';
   static const codeMode = '/code-mode';
   static const templates = '/templates';
   static const history = '/history';
@@ -33,6 +35,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.textMode,
       builder: (context, state) => const TextModeScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.execution,
+      builder: (context, state) => const ExecutionScreen(),
     ),
     GoRoute(
       path: AppRoutes.codeMode,

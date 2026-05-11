@@ -19,11 +19,17 @@ Date: 2026-05-11
 - Home screen with connection status chip, mode cards, and quick actions.
 - Initial Connect, Text Mode, Code Mode, Templates, History, and Settings screens.
 
-## Shared Package
-- Added shared models: device, connected device, section, session, template, field map.
-- Added protocol types: message types, message wrapper, capability model.
-- Added connection helpers: device registry, message router, mDNS placeholder.
-- Exports consolidated via humantype_shared.dart.
+- Implemented basic WiFi WebSocket client (`WiFiService`) and connect UI.
+- Implemented capability advertisement handshake on connect and a simple "Send Hello World" command flow for Phase 1 proof-of-concept.
+
+## Python Bridge (Agent 2)
+- Implemented core bridge infrastructure in `bridge/humantype_bridge/`.
+- `security/token_validator.py`: Added SHA-256 token hashing and constant-time validation.
+- `discovery/mdns_broadcast.py`: Implemented Zeroconf service broadcasting for auto-discovery.
+- `executor/command_parser.py` & `executor/keyboard_executor.py`: Built the command execution engine using `pyautogui`.
+- `server/websocket_server.py`: Implemented WebSocket server with handshake and capability exchange.
+- `tray/tray_icon.py`: Added system tray management with connection status icons.
+- `main.py`: Created the async entry point to tie all bridge services together.
 
 ## Commands Run
 - flutter create --org com.humantype --platforms=android apps/humantype_android

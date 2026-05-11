@@ -45,6 +45,28 @@ class SettingsScreen extends ConsumerWidget {
             onChanged: (value) =>
                 ref.read(settingsProvider.notifier).setAiEnabled(value),
           ),
+          const SizedBox(height: HumanTypeSpacing.sm),
+          TextField(
+            obscureText: true,
+            enableSuggestions: false,
+            autocorrect: false,
+            decoration: const InputDecoration(
+              labelText: 'Claude API key',
+              hintText: 'Paste your API key',
+            ),
+            onChanged: (value) =>
+                ref.read(settingsProvider.notifier).setAiApiKey(value.trim()),
+          ),
+          const SizedBox(height: HumanTypeSpacing.xl),
+          Text('History', style: HumanTypeText.heading1),
+          const SizedBox(height: HumanTypeSpacing.lg),
+          _SettingsTile(
+            title: 'Session history',
+            subtitle: 'Log session details locally for replay and analytics.',
+            value: settings.historyEnabled,
+            onChanged: (value) =>
+                ref.read(settingsProvider.notifier).setHistoryEnabled(value),
+          ),
         ],
       ),
     );

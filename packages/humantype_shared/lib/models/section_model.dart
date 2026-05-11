@@ -345,7 +345,7 @@ int _defaultWpm(SpeedProfileType type) {
 
 String _enumName(Object value) => value.toString().split('.').last;
 
-T _enumFromString<T>(List<T> values, String? value, T fallback) {
+T _enumFromString<T extends Object>(List<T> values, String? value, T fallback) {
   if (value == null) return fallback;
   for (final entry in values) {
     if (_enumName(entry).toLowerCase() == value.toLowerCase()) {

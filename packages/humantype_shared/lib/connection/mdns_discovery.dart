@@ -1,3 +1,7 @@
+import 'package:multicast_dns/multicast_dns.dart';
+
+import '../constants/app_constants.dart';
+
 class DiscoveredDevice {
   const DiscoveredDevice({
     required this.id,
@@ -18,6 +22,43 @@ class MdnsDiscovery {
   Future<List<DiscoveredDevice>> scan({
     Duration timeout = const Duration(seconds: 5),
   }) async {
-    return <DiscoveredDevice>[];
+    final devices = <DiscoveredDevice>[];
+    final client = MDnsClient();
+    final endAt = DateTime.now().add(timeout);
+
+    await client.start();
+    try {
+      await for (final PtrResourceRecord ptr
+          in client.lookup<PtrResourceRecord>(
+            ResourceRecordQuery.serverPointer(AppConstants.mdnsServiceName),
+          )) {
+        if (DateTime.now().isAfter(endAt)) break;
+        await for (final SrvResourceRecord srv
+            in client.lookup<SrvResourceRecord>(
+              ResourceRecordQuery.service(ptr.domainName),
+            )) {
+          if (DateTime.now().isAfter(endAt)) break;
+          await for (final IPAddressResourceRecord ip
+              in client.lookup<IPAddressResourceRecord>(
+                ResourceRecordQuery.addressIPv4(srv.target),
+              )) {
+            if (DateTime.now().isAfter(endAt)) break;
+            devices.add(
+              DiscoveredDevice(
+                id: '${srv.target}:${srv.port}',
+                name: ptr.domainName,
+                host: ip.address.address,
+                port: srv.port,
+                deviceType: 'bridge',
+              ),
+            );
+          }
+        }
+      }
+    } finally {
+      client.stop();
+    }
+
+    return devices;
   }
 }

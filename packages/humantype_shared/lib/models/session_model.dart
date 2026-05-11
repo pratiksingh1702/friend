@@ -121,7 +121,7 @@ DateTime _parseDate(String? value) {
   return DateTime.parse(value);
 }
 
-T _enumFromString<T>(List<T> values, String? value, T fallback) {
+T _enumFromString<T extends Object>(List<T> values, String? value, T fallback) {
   if (value == null) return fallback;
   for (final entry in values) {
     if (_enumName(entry).toLowerCase() == value.toLowerCase()) {

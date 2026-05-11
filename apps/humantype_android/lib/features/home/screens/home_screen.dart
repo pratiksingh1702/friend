@@ -29,7 +29,7 @@ class HomeScreen extends ConsumerWidget {
     return HumanTypeScaffold(
       actions: [
         IconButton(
-          onPressed: () => context.go(AppRoutes.settings),
+          onPressed: () => context.push(AppRoutes.settings),
           icon: const Icon(Icons.settings_outlined),
         ),
       ],
@@ -42,7 +42,7 @@ class HomeScreen extends ConsumerWidget {
           const SizedBox(height: HumanTypeSpacing.lg),
           ConnectionStatusChip(
             state: connection,
-            onTap: () => context.go(AppRoutes.connect),
+            onTap: () => context.push(AppRoutes.connect),
           ),
           const SizedBox(height: HumanTypeSpacing.xl),
           Row(
@@ -52,7 +52,7 @@ class HomeScreen extends ConsumerWidget {
                   title: 'Text Mode',
                   subtitle: 'Compose and control',
                   icon: Icons.text_fields,
-                  onTap: () => context.go(AppRoutes.textMode),
+                  onTap: () => context.push(AppRoutes.textMode),
                 ),
               ),
               const SizedBox(width: HumanTypeSpacing.md),
@@ -61,7 +61,7 @@ class HomeScreen extends ConsumerWidget {
                   title: 'Code Mode',
                   subtitle: 'Precision typing',
                   icon: Icons.code,
-                  onTap: () => context.go(AppRoutes.codeMode),
+                  onTap: () => context.push(AppRoutes.codeMode),
                 ),
               ),
             ],
@@ -71,14 +71,14 @@ class HomeScreen extends ConsumerWidget {
             title: 'Templates',
             subtitle: 'Saved sessions',
             icon: Icons.inventory_2_outlined,
-            onTap: () => context.go(AppRoutes.templates),
+            onTap: () => context.push(AppRoutes.templates),
           ),
           const SizedBox(height: HumanTypeSpacing.md),
           _QuickActionCard(
             title: 'Last session',
             subtitle: 'No recent sessions',
             icon: Icons.history,
-            onTap: () => context.go(AppRoutes.history),
+            onTap: () => context.push(AppRoutes.history),
           ),
         ],
       ),

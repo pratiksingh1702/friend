@@ -49,6 +49,8 @@ dependencies:
 
   flutter_secure_storage: ^9.0.0
 
+  wakelock_plus: ^1.2.5
+
   multicast_dns: ^0.3.2+1
 
   google_fonts: ^6.1.0

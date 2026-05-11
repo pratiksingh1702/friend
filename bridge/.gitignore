@@ -1,0 +1,46 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*.class
+
+# Virtual environments
+venv/
+.env/
+.venv/
+
+# PyInstaller
+build/
+dist/
+*.spec.bak
+*.manifest
+*.pyz
+
+# Logs
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Python packaging
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Cache
+.pytest_cache/
+.mypy_cache/
+
+# Executables
+*.exe
+
+# Environment variables
+.env
+
+# Temporary files
+*.tmp
+*.temp

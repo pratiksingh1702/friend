@@ -9,6 +9,7 @@ dependencies:
   crypto: ^3.0.3
   http: ^1.2.0
   hive: ^2.2.3
+  multicast_dns: ^0.3.2+1
 
 dev_dependencies:
   hive_generator: ^2.0.1

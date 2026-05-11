@@ -58,8 +58,26 @@ class ConnectionNotifier extends Notifier<ConnectionState> {
     state = state.copyWith(quality: quality);
   }
 
+  void updateLatency(int latencyMs) {
+    if (!state.isConnected || state.device == null) return;
+    final quality = state.method == ConnectionMethod.bluetooth
+        ? ConnectionQuality.bluetooth
+        : _classifyLatency(latencyMs);
+    state = state.copyWith(
+      device: state.device!.copyWith(latencyMs: latencyMs),
+      quality: quality,
+    );
+  }
+
   void setDisconnected() {
     state = ConnectionState.disconnected();
+  }
+
+  ConnectionQuality _classifyLatency(int latencyMs) {
+    if (latencyMs < 30) return ConnectionQuality.excellent;
+    if (latencyMs < 80) return ConnectionQuality.good;
+    if (latencyMs < 150) return ConnectionQuality.fair;
+    return ConnectionQuality.poor;
   }
 }
 

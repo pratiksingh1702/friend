@@ -15,3 +15,10 @@ export 'protocols/ws_message.dart';
 export 'connection/device_registry.dart';
 export 'connection/mdns_discovery.dart';
 export 'connection/message_router.dart';
+
+export 'ai_engine/code_analyzer.dart';
+export 'ai_engine/claude_api_service.dart';
+export 'ai_engine/error_injector.dart';
+export 'ai_engine/execution_planner.dart';
+export 'ai_engine/humanizer.dart';
+export 'ai_engine/type_command.dart';
