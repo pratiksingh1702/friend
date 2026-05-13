@@ -46,6 +46,7 @@ class WebSocketServer:
             message = json.loads(raw)
 
             if message.get('type') != 'handshake':
+                print(f"[Bridge] Rejected client: first message was '{message.get('type')}' not 'handshake'")
                 await websocket.close(1008, 'Handshake required first')
                 return
 
@@ -53,19 +54,17 @@ class WebSocketServer:
             token = message.get('payload', {}).get('pairing_token', '')
             sender = message.get('sender', {})
             device_id = sender.get('device_id', 'unknown')
+            print(f"[Bridge] Handshake received from device_id={device_id}")
 
             # Trust the local Windows Command Center
             is_authorized = device_id == 'windows-cmd-center'
             
             if not is_authorized:
-                if not self.validator.validate(device_id, token):
-                    # New device — store token (first-time pairing) if no devices paired
-                    if self.validator.is_first_connection():
-                        self.validator.store(device_id, token)
-                        print(f"[Bridge] New device paired: {device_id}")
-                    else:
-                        await websocket.close(1008, 'Authentication failed')
-                        return
+                is_valid = self.validator.validate(device_id, token)
+                if not is_valid:
+                    # Accept new device pairing — store token and allow
+                    self.validator.store(device_id, token)
+                    print(f"[Bridge] New device paired: {device_id}")
 
             # Store client
             self.connected_clients[device_id] = (websocket, sender)

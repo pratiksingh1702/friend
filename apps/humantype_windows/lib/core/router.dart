@@ -11,6 +11,12 @@ import '../features/settings/screens/settings_screen.dart';
 import '../features/calibration/screens/calibration_screen.dart';
 import '../features/overlay/overlay_window.dart';
 
+import '../features/shell/widgets/floating_bottom_nav.dart';
+import '../features/dashboard/widgets/noise_background.dart';
+import '../features/shell/widgets/sidebar.dart';
+import '../features/shell/widgets/top_header.dart';
+import 'theme/ht_colors.dart';
+
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 final shellNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -29,8 +35,16 @@ final router = GoRouter(
           builder: (context, state) => const OverviewPage(),
         ),
         GoRoute(
+          path: '/vault',
+          builder: (context, state) => const VaultPage(),
+        ),
+        GoRoute(
           path: '/scratchpad',
           builder: (context, state) => const ScratchpadPage(),
+        ),
+        GoRoute(
+          path: '/files',
+          builder: (context, state) => const FileTransferPage(),
         ),
         GoRoute(
           path: '/clipboard',
@@ -39,14 +53,6 @@ final router = GoRouter(
         GoRoute(
           path: '/notifications',
           builder: (context, state) => const NotificationsPage(),
-        ),
-        GoRoute(
-          path: '/files',
-          builder: (context, state) => const FileTransferPage(),
-        ),
-        GoRoute(
-          path: '/vault',
-          builder: (context, state) => const VaultPage(),
         ),
         GoRoute(
           path: '/settings',
@@ -65,6 +71,8 @@ final router = GoRouter(
   ],
 );
 
+
+
 class AppShell extends ConsumerWidget {
   final Widget child;
   final String location;
@@ -73,84 +81,61 @@ class AppShell extends ConsumerWidget {
   int _selectedIndex() {
     switch (location) {
       case '/': return 0;
+      case '/vault': return 1;
       case '/scratchpad': return 2;
-      case '/clipboard': return 3;
-      case '/notifications': return 4;
-      case '/files': return 5;
-      case '/vault': return 6;
-      case '/settings': return 8;
-      case '/calibration': return 9;
+      case '/files': return 3;
+      case '/clipboard': return 4;
+      case '/notifications': return 5;
+      case '/settings': return 6;
+      case '/calibration': return 7;
       default: return 0;
     }
   }
 
+  void _onItemSelected(BuildContext context, int index) {
+    switch (index) {
+      case 0: context.go('/'); break;
+      case 1: context.go('/vault'); break;
+      case 2: context.go('/scratchpad'); break;
+      case 3: context.go('/files'); break;
+      case 4: context.go('/clipboard'); break;
+      case 5: context.go('/notifications'); break;
+      case 6: context.go('/settings'); break;
+      case 7: context.go('/calibration'); break;
+    }
+  }
+
+  void _onRouteSelected(BuildContext context, String route) {
+    context.go(route);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return NavigationView(
-      pane: NavigationPane(
-        selected: _selectedIndex(),
-        displayMode: PaneDisplayMode.auto,
-        header: const Padding(
-          padding: EdgeInsets.only(left: 12, bottom: 12),
-          child: Text(
-            'HumanType v5.0',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+    return Container(
+      color: HTColors.bgBase,
+      child: Row(
+        children: [
+          Sidebar(
+            activeRoute: location,
+            onRouteSelected: (route) => _onRouteSelected(context, route),
           ),
-        ),
-        onChanged: (index) {
-          switch (index) {
-            case 0: context.go('/'); break;
-            case 1: context.go('/scratchpad'); break;
-            case 2: context.go('/clipboard'); break;
-            case 3: context.go('/notifications'); break;
-            case 4: context.go('/files'); break;
-            case 5: context.go('/vault'); break;
-            case 6: context.go('/settings'); break;
-            case 7: context.go('/calibration'); break;
-          }
-        },
-        items: [
-          PaneItem(
-            icon: const Icon(FluentIcons.home),
-            title: const Text('Overview'),
-            body: child,
-          ),
-          PaneItemSeparator(),
-          PaneItem(
-            icon: const Icon(FluentIcons.edit_note),
-            title: const Text('Shared Scratchpad'),
-            body: child,
-          ),
-          PaneItem(
-            icon: const Icon(FluentIcons.copy),
-            title: const Text('Clipboard Sync'),
-            body: child,
-          ),
-          PaneItem(
-            icon: const Icon(FluentIcons.message_fill),
-            title: const Text('Notification Hub'),
-            body: child,
-          ),
-          PaneItem(
-            icon: const Icon(FluentIcons.sync),
-            title: const Text('File Transfer'),
-            body: child,
-          ),
-          PaneItem(
-            icon: const Icon(FluentIcons.shield),
-            title: const Text('Biometric Vault'),
-            body: child,
-          ),
-          PaneItemSeparator(),
-          PaneItem(
-            icon: const Icon(FluentIcons.settings),
-            title: const Text('System Settings'),
-            body: child,
-          ),
-          PaneItem(
-            icon: const Icon(FluentIcons.compass_n_w),
-            title: const Text('Calibration'),
-            body: child,
+          Expanded(
+            child: Column(
+              children: [
+                const TopHeader(),
+                Expanded(
+                  child: Stack(
+                    children: [
+                      child,
+                      FloatingBottomNav(
+                        selectedIndex: _selectedIndex(),
+                        onItemSelected: (index) => _onItemSelected(context, index),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

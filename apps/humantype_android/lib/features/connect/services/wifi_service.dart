@@ -61,6 +61,7 @@ class WiFiService {
       final pairingToken = await _pairing.getOrCreateToken(host);
 
       // Timeout for connection attempt
+      print('[WiFiService] Connecting to ws://$host:$port...');
       _channel = WebSocketChannel.connect(uri);
       
       // We wrap the listener to handle initial connection errors better
@@ -68,11 +69,14 @@ class WiFiService {
         _onMessage,
         onDone: _onDisconnected,
         onError: (e) {
+          print('[WiFiService] Connection error: $e');
           _onDisconnected();
-          // Log or notify about connection error
         },
         cancelOnError: true,
       );
+
+      // Wait for the WebSocket to actually connect before sending handshake
+      await _channel!.ready;
 
       // Send initial handshake
       final deviceInfo = DeviceInfo.android(
@@ -101,6 +105,7 @@ class WiFiService {
 
       _reconnectAttempts = 0;
       _reconnectTimer?.cancel();
+      print('[WiFiService] Connected successfully to $host');
       _startHeartbeat(deviceInfo);
     } catch (e) {
       _onDisconnected();
@@ -161,6 +166,7 @@ class WiFiService {
       final jsonMsg = jsonDecode(raw as String) as Map<String, dynamic>;
       final msg = WsMessage.fromJson(jsonMsg);
       _messages.add(msg);
+      print('[WiFiService] Received message: ${msg.type}');
       _router.route(msg);
 
       switch (msg.type) {
@@ -194,6 +200,7 @@ class WiFiService {
   }
 
   void _onDisconnected() {
+    print('[WiFiService] Disconnected from bridge');
     disconnect();
     final settings = _ref.read(settingsProvider);
     if (settings.autoReconnect && _lastHost != null && _reconnectAttempts < 5) {

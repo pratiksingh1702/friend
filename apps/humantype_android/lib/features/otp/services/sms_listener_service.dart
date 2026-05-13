@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:telephony/telephony.dart';
+import 'package:another_telephony/telephony.dart';
 import 'package:humantype_shared/humantype_shared.dart';
 import '../../connect/services/wifi_service.dart';
 import '../../../core/services/device_identity.dart';

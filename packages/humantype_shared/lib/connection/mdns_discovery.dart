@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:multicast_dns/multicast_dns.dart';
 
 import '../constants/app_constants.dart';
@@ -23,7 +24,23 @@ class MdnsDiscovery {
     Duration timeout = const Duration(seconds: 5),
   }) async {
     final devices = <DiscoveredDevice>[];
-    final client = MDnsClient();
+    final client = MDnsClient(
+      rawDatagramSocketFactory: (
+        dynamic host,
+        int port, {
+        bool reuseAddress = true,
+        bool reusePort = false,
+        int ttl = 1,
+      }) {
+        return RawDatagramSocket.bind(
+          host,
+          port,
+          reuseAddress: reuseAddress,
+          reusePort: false,
+          ttl: ttl,
+        );
+      },
+    );
     final endAt = DateTime.now().add(timeout);
 
     await client.start();
