@@ -31,6 +31,13 @@ class KeyboardExecutor:
             'pagedown': 'pagedown',
         }
 
+    async def type_text(self, text: str, interval: float = 0.05):
+        """Directly type text with a set interval, bypassing the humanizer logic."""
+        try:
+            pyautogui.write(text, interval=interval)
+        except Exception as e:
+            print(f"[Executor] Error typing text: {e}")
+
     async def execute(self, command: ParsedCommand):
         """Execute a parsed command with appropriate pre-delay."""
         

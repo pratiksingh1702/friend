@@ -66,7 +66,7 @@ class AndroidSyncService {
       print('[AndroidSync] Connected to Android at $ip:$port');
 
       // Send handshake
-      _send({
+      send({
         'type': 'handshake',
         'sender': {'device_id': 'windows_app', 'current_role': 'controller'},
         'payload': {
@@ -99,7 +99,7 @@ class AndroidSyncService {
       // Start heartbeat
       _heartbeatTimer = Timer.periodic(const Duration(seconds: 5), (_) {
         if (_connected) {
-          _send({'type': 'heartbeat'});
+          send({'type': 'heartbeat'});
         }
       });
     } catch (e) {
@@ -115,14 +115,46 @@ class AndroidSyncService {
   }
 
   void sendSettings(Map<String, dynamic> settings) {
-    _send({'type': 'settings_sync', 'payload': settings});
+    send({'type': 'settings_sync', 'payload': settings});
   }
 
   void sendOcrResult(String text) {
-    _send({'type': 'ocr_result', 'payload': {'text': text}});
+    send({'type': 'ocr_result', 'payload': {'text': text}});
   }
 
-  void _send(Map<String, dynamic> message) {
+  void sendScratchpad(String content) {
+    send({
+      'type': 'scratchpad_sync',
+      'payload': {
+        'content': content,
+        'last_modified_by': 'windows',
+        'timestamp_ms': DateTime.now().millisecondsSinceEpoch,
+      }
+    });
+  }
+
+  void sendClipboard(String content) {
+    send({
+      'type': 'clipboard_sync',
+      'payload': {
+        'content': content,
+        'content_type': 'text',
+        'source': 'windows',
+        'char_count': content.length,
+      }
+    });
+  }
+
+  void sendPasswordRequest() {
+    send({
+      'type': 'password_request',
+      'payload': {
+        'timestamp_ms': DateTime.now().millisecondsSinceEpoch,
+      }
+    });
+  }
+
+  void send(Map<String, dynamic> message) {
     if (_connected) {
       _channel?.sink.add(jsonEncode(message));
     }

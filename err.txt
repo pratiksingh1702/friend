@@ -1,73 +1,263 @@
-../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:85:10: Error: Type 'AiResponse' not found.
-  Future<AiResponse> processRequest(AiRequest request) async {
-         ^^^^^^^^^^
-../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:85:37: Error: Type 'AiRequest' not found.
-  Future<AiResponse> processRequest(AiRequest request) async {
-                                    ^^^^^^^^^
-../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:85:37: Error: 'AiRequest' isn't a type.
-  Future<AiResponse> processRequest(AiRequest request) async {
-                                    ^^^^^^^^^
-../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:88:12: Error: Not a constant expression.
-      case AiTaskType.autocomplete:
-           ^^^^^^^^^^
-../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:91:12: Error: Not a constant expression.
-      case AiTaskType.rewrite:
-           ^^^^^^^^^^
-../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:94:12: Error: Not a constant expression.
-      case AiTaskType.improve:
-           ^^^^^^^^^^
-../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:97:12: Error: Not a constant expression.
-      case AiTaskType.quickReply:
-           ^^^^^^^^^^
-../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:100:12: Error: Not a constant expression.
-      case AiTaskType.ocrAnalysis:
-           ^^^^^^^^^^
-../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:119:31: Error: The getter 'AiTaskType' isn't
-defined for the type 'GeminiApiService'.
- - 'GeminiApiService' is from 'package:humantype_shared/ai_engine/gemini_api_service.dart'
- ('../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart').
-Try correcting the name to the name of an existing getter, or defining a getter or field named 'AiTaskType'.
-          if (request.task == AiTaskType.autocomplete || request.task == AiTaskType.quickReply)
-                              ^^^^^^^^^^
-../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:119:74: Error: The getter 'AiTaskType' isn't
-defined for the type 'GeminiApiService'.
- - 'GeminiApiService' is from 'package:humantype_shared/ai_engine/gemini_api_service.dart'
- ('../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart').
-Try correcting the name to the name of an existing getter, or defining a getter or field named 'AiTaskType'.
-          if (request.task == AiTaskType.autocomplete || request.task == AiTaskType.quickReply)
-                                                                         ^^^^^^^^^^
-../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:135:25: Error: The getter 'AiTaskType' isn't
-defined for the type 'GeminiApiService'.
- - 'GeminiApiService' is from 'package:humantype_shared/ai_engine/gemini_api_service.dart'
- ('../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart').
-Try correcting the name to the name of an existing getter, or defining a getter or field named 'AiTaskType'.
-    if (request.task == AiTaskType.autocomplete || request.task == AiTaskType.quickReply) {
-                        ^^^^^^^^^^
-../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:135:68: Error: The getter 'AiTaskType' isn't
-defined for the type 'GeminiApiService'.
- - 'GeminiApiService' is from 'package:humantype_shared/ai_engine/gemini_api_service.dart'
- ('../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart').
-Try correcting the name to the name of an existing getter, or defining a getter or field named 'AiTaskType'.
-    if (request.task == AiTaskType.autocomplete || request.task == AiTaskType.quickReply) {
-                                                                   ^^^^^^^^^^
-../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:139:18: Error: The method 'AiResponse' isn't
-defined for the type 'GeminiApiService'.
- - 'GeminiApiService' is from 'package:humantype_shared/ai_engine/gemini_api_service.dart'
- ('../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart').
-Try correcting the name to the name of an existing method, or defining a method named 'AiResponse'.
-          return AiResponse(suggestions: decoded.cast<String>());
-                 ^^^^^^^^^^
-../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:141:18: Error: The method 'AiResponse' isn't
-defined for the type 'GeminiApiService'.
- - 'GeminiApiService' is from 'package:humantype_shared/ai_engine/gemini_api_service.dart'
- ('../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart').
-Try correcting the name to the name of an existing method, or defining a method named 'AiResponse'.
-          return AiResponse(suggestions: (decoded['suggestions'] as List).cast<String>());
-                 ^^^^^^^^^^
-../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart:146:12: Error: The method 'AiResponse' isn't
-defined for the type 'GeminiApiService'.
- - 'GeminiApiService' is from 'package:humantype_shared/ai_engine/gemini_api_service.dart'
- ('../../packages/humantype_shared/lib/ai_engine/gemini_api_service.dart').
-Try correcting the name to the name of an existing method, or defining a method named 'AiResponse'.
-    return AiResponse(suggestions: [], result: resultText);
-           ^^^^^^^^^^
+
+
+Performing hot reload...
+Reloaded 36 of 1887 libraries in 6,459ms (compile: 134 ms, reload: 662 ms, reassemble: 403 ms).
+[ERROR:flutter/runtime/dart_vm_initializer.cc(40)] Unhandled Exception: LateInitializationError: Field '_instance@1857507694' has not been initialized.
+#0      FilePicker._instance (package:file_picker/src/file_picker.dart)
+#1      FilePicker.platform (package:file_picker/src/file_picker.dart:37:37)
+#2      FileTransferPage._pickAndSendFile (package:humantype_windows/features/dashboard/screens/file_transfer_page.dart:67:37)
+#3      FileTransferPage.build.<anonymous closure> (package:humantype_windows/features/dashboard/screens/file_transfer_page.dart:24:32)
+#4      GestureRecognizer.invokeCallback (package:flutter/src/gestures/recognizer.dart:345:24)
+#5      TapGestureRecognizer.handleTapUp (package:flutter/src/gestures/tap.dart:758:11)
+#6      BaseTapGestureRecognizer._checkUp (package:flutter/src/gestures/tap.dart:383:5)
+#7      BaseTapGestureRecognizer.handlePrimaryPointer (package:flutter/src/gestures/tap.dart:314:7)
+#8      PrimaryPointerGestureRecognizer.handleEvent (package:flutter/src/gestures/recognizer.dart:721:9)
+#9      PointerRouter._dispatch (package:flutter/src/gestures/pointer_router.dart:97:12)
+#10     PointerRouter._dispatchEventToRoutes.<anonymous closure> (package:flutter/src/gestures/pointer_router.dart:140:9)
+#11     _LinkedHashMapMixin.forEach (dart:_compact_hash:765:13)
+#12     PointerRouter._dispatchEventToRoutes (package:flutter/src/gestures/pointer_router.dart:138:18)
+#13     PointerRouter.route (package:flutter/src/gestures/pointer_router.dart:128:7)
+#14     GestureBinding.handleEvent (package:flutter/src/gestures/binding.dart:528:19)
+#15     GestureBinding.dispatchEvent (package:flutter/src/gestures/binding.dart:498:22)
+#16     RendererBinding.dispatchEvent (package:flutter/src/rendering/binding.dart:473:11)
+#17     GestureBinding._handlePointerEventImmediately (package:flutter/src/gestures/binding.dart:437:7)
+#18     GestureBinding.handlePointerEvent (package:flutter/src/gestures/binding.dart:394:5)
+#19     GestureBinding._flushPointerEventQueue (package:flutter/src/gestures/binding.dart:341:7)
+#20     GestureBinding._handlePointerDataPacket (package:flutter/src/gestures/binding.dart:308:9)
+#21     _invoke1 (dart:ui/hooks.dart:372:13)
+#22     PlatformDispatcher._dispatchPointerDataPacket (dart:ui/platform_dispatcher.dart:467:7)
+#23     _dispatchPointerDataPacket (dart:ui/hooks.dart:307:31)
+
+[ERROR:flutter/runtime/dart_vm_initializer.cc(40)] Unhandled Exception: LateInitializationError: Field '_instance@1857507694' has not been initialized.
+#0      FilePicker._instance (package:file_picker/src/file_picker.dart)
+#1      FilePicker.platform (package:file_picker/src/file_picker.dart:37:37)
+#2      FileTransferPage._pickAndSendFile (package:humantype_windows/features/dashboard/screens/file_transfer_page.dart:67:37)
+#3      FileTransferPage.build.<anonymous closure> (package:humantype_windows/features/dashboard/screens/file_transfer_page.dart:24:32)
+#4      GestureRecognizer.invokeCallback (package:flutter/src/gestures/recognizer.dart:345:24)
+#5      TapGestureRecognizer.handleTapUp (package:flutter/src/gestures/tap.dart:758:11)
+#6      BaseTapGestureRecognizer._checkUp (package:flutter/src/gestures/tap.dart:383:5)
+#7      BaseTapGestureRecognizer.handlePrimaryPointer (package:flutter/src/gestures/tap.dart:314:7)
+#8      PrimaryPointerGestureRecognizer.handleEvent (package:flutter/src/gestures/recognizer.dart:721:9)
+#9      PointerRouter._dispatch (package:flutter/src/gestures/pointer_router.dart:97:12)
+#10     PointerRouter._dispatchEventToRoutes.<anonymous closure> (package:flutter/src/gestures/pointer_router.dart:140:9)
+#11     _LinkedHashMapMixin.forEach (dart:_compact_hash:765:13)
+#12     PointerRouter._dispatchEventToRoutes (package:flutter/src/gestures/pointer_router.dart:138:18)
+#13     PointerRouter.route (package:flutter/src/gestures/pointer_router.dart:128:7)
+#14     GestureBinding.handleEvent (package:flutter/src/gestures/binding.dart:528:19)
+#15     GestureBinding.dispatchEvent (package:flutter/src/gestures/binding.dart:498:22)
+#16     RendererBinding.dispatchEvent (package:flutter/src/rendering/binding.dart:473:11)
+#17     GestureBinding._handlePointerEventImmediately (package:flutter/src/gestures/binding.dart:437:7)
+#18     GestureBinding.handlePointerEvent (package:flutter/src/gestures/binding.dart:394:5)
+#19     GestureBinding._flushPointerEventQueue (package:flutter/src/gestures/binding.dart:341:7)
+#20     GestureBinding._handlePointerDataPacket (package:flutter/src/gestures/binding.dart:308:9)
+#21     _invoke1 (dart:ui/hooks.dart:372:13)
+#22     PlatformDispatcher._dispatchPointerDataPacket (dart:ui/platform_dispatcher.dart:467:7)
+#23     _dispatchPointerDataPacket (dart:ui/hooks.dart:307:31)
+
+[ERROR:flutter/runtime/dart_vm_initializer.cc(40)] Unhandled Exception: LateInitializationError: Field '_instance@1857507694' has not been initialized.
+#0      FilePicker._instance (package:file_picker/src/file_picker.dart)
+#1      FilePicker.platform (package:file_picker/src/file_picker.dart:37:37)
+#2      FileTransferPage._pickAndSendFile (package:humantype_windows/features/dashboard/screens/file_transfer_page.dart:67:37)
+#3      FileTransferPage.build.<anonymous closure> (package:humantype_windows/features/dashboard/screens/file_transfer_page.dart:24:32)
+#4      GestureRecognizer.invokeCallback (package:flutter/src/gestures/recognizer.dart:345:24)
+#5      TapGestureRecognizer.handleTapUp (package:flutter/src/gestures/tap.dart:758:11)
+#6      BaseTapGestureRecognizer._checkUp (package:flutter/src/gestures/tap.dart:383:5)
+#7      BaseTapGestureRecognizer.handlePrimaryPointer (package:flutter/src/gestures/tap.dart:314:7)
+#8      PrimaryPointerGestureRecognizer.handleEvent (package:flutter/src/gestures/recognizer.dart:721:9)
+#9      PointerRouter._dispatch (package:flutter/src/gestures/pointer_router.dart:97:12)
+#10     PointerRouter._dispatchEventToRoutes.<anonymous closure> (package:flutter/src/gestures/pointer_router.dart:140:9)
+#11     _LinkedHashMapMixin.forEach (dart:_compact_hash:765:13)
+#12     PointerRouter._dispatchEventToRoutes (package:flutter/src/gestures/pointer_router.dart:138:18)
+#13     PointerRouter.route (package:flutter/src/gestures/pointer_router.dart:128:7)
+#14     GestureBinding.handleEvent (package:flutter/src/gestures/binding.dart:528:19)
+#15     GestureBinding.dispatchEvent (package:flutter/src/gestures/binding.dart:498:22)
+#16     RendererBinding.dispatchEvent (package:flutter/src/rendering/binding.dart:473:11)
+#17     GestureBinding._handlePointerEventImmediately (package:flutter/src/gestures/binding.dart:437:7)
+#18     GestureBinding.handlePointerEvent (package:flutter/src/gestures/binding.dart:394:5)
+#19     GestureBinding._flushPointerEventQueue (package:flutter/src/gestures/binding.dart:341:7)
+#20     GestureBinding._handlePointerDataPacket (package:flutter/src/gestures/binding.dart:308:9)
+#21     _invoke1 (dart:ui/hooks.dart:372:13)
+#22     PlatformDispatcher._dispatchPointerDataPacket (dart:ui/platform_dispatcher.dart:467:7)
+#23     _dispatchPointerDataPacket (dart:ui/hooks.dart:307:31)
+
+[ERROR:flutter/runtime/dart_vm_initializer.cc(40)] Unhandled Exception: LateInitializationError: Field '_instance@1857507694' has not been initialized.
+#0      FilePicker._instance (package:file_picker/src/file_picker.dart)
+#1      FilePicker.platform (package:file_picker/src/file_picker.dart:37:37)
+#2      FileTransferPage._pickAndSendFile (package:humantype_windows/features/dashboard/screens/file_transfer_page.dart:67:37)
+#3      FileTransferPage.build.<anonymous closure> (package:humantype_windows/features/dashboard/screens/file_transfer_page.dart:24:32)
+#4      GestureRecognizer.invokeCallback (package:flutter/src/gestures/recognizer.dart:345:24)
+#5      TapGestureRecognizer.handleTapUp (package:flutter/src/gestures/tap.dart:758:11)
+#6      BaseTapGestureRecognizer._checkUp (package:flutter/src/gestures/tap.dart:383:5)
+#7      BaseTapGestureRecognizer.handlePrimaryPointer (package:flutter/src/gestures/tap.dart:314:7)
+#8      PrimaryPointerGestureRecognizer.handleEvent (package:flutter/src/gestures/recognizer.dart:721:9)
+#9      PointerRouter._dispatch (package:flutter/src/gestures/pointer_router.dart:97:12)
+#10     PointerRouter._dispatchEventToRoutes.<anonymous closure> (package:flutter/src/gestures/pointer_router.dart:140:9)
+#11     _LinkedHashMapMixin.forEach (dart:_compact_hash:765:13)
+#12     PointerRouter._dispatchEventToRoutes (package:flutter/src/gestures/pointer_router.dart:138:18)
+#13     PointerRouter.route (package:flutter/src/gestures/pointer_router.dart:128:7)
+#14     GestureBinding.handleEvent (package:flutter/src/gestures/binding.dart:528:19)
+#15     GestureBinding.dispatchEvent (package:flutter/src/gestures/binding.dart:498:22)
+#16     RendererBinding.dispatchEvent (package:flutter/src/rendering/binding.dart:473:11)
+#17     GestureBinding._handlePointerEventImmediately (package:flutter/src/gestures/binding.dart:437:7)
+#18     GestureBinding.handlePointerEvent (package:flutter/src/gestures/binding.dart:394:5)
+#19     GestureBinding._flushPointerEventQueue (package:flutter/src/gestures/binding.dart:341:7)
+#20     GestureBinding._handlePointerDataPacket (package:flutter/src/gestures/binding.dart:308:9)
+#21     _invoke1 (dart:ui/hooks.dart:372:13)
+#22     PlatformDispatcher._dispatchPointerDataPacket (dart:ui/platform_dispatcher.dart:467:7)
+#23     _dispatchPointerDataPacket (dart:ui/hooks.dart:307:31)
+
+[ERROR:flutter/runtime/dart_vm_initializer.cc(40)] Unhandled Exception: LateInitializationError: Field '_instance@1857507694' has not been initialized.
+#0      FilePicker._instance (package:file_picker/src/file_picker.dart)
+#1      FilePicker.platform (package:file_picker/src/file_picker.dart:37:37)
+#2      FileTransferPage._pickAndSendFile (package:humantype_windows/features/dashboard/screens/file_transfer_page.dart:67:37)
+#3      FileTransferPage._buildEmptyState.<anonymous closure> (package:humantype_windows/features/dashboard/screens/file_transfer_page.dart:100:32)
+#4      GestureRecognizer.invokeCallback (package:flutter/src/gestures/recognizer.dart:345:24)
+#5      TapGestureRecognizer.handleTapUp (package:flutter/src/gestures/tap.dart:758:11)
+#6      BaseTapGestureRecognizer._checkUp (package:flutter/src/gestures/tap.dart:383:5)
+#7      BaseTapGestureRecognizer.handlePrimaryPointer (package:flutter/src/gestures/tap.dart:314:7)
+#8      PrimaryPointerGestureRecognizer.handleEvent (package:flutter/src/gestures/recognizer.dart:721:9)
+#9      PointerRouter._dispatch (package:flutter/src/gestures/pointer_router.dart:97:12)
+#10     PointerRouter._dispatchEventToRoutes.<anonymous closure> (package:flutter/src/gestures/pointer_router.dart:140:9)
+#11     _LinkedHashMapMixin.forEach (dart:_compact_hash:765:13)
+#12     PointerRouter._dispatchEventToRoutes (package:flutter/src/gestures/pointer_router.dart:138:18)
+#13     PointerRouter.route (package:flutter/src/gestures/pointer_router.dart:128:7)
+#14     GestureBinding.handleEvent (package:flutter/src/gestures/binding.dart:528:19)
+#15     GestureBinding.dispatchEvent (package:flutter/src/gestures/binding.dart:498:22)
+#16     RendererBinding.dispatchEvent (package:flutter/src/rendering/binding.dart:473:11)
+#17     GestureBinding._handlePointerEventImmediately (package:flutter/src/gestures/binding.dart:437:7)
+#18     GestureBinding.handlePointerEvent (package:flutter/src/gestures/binding.dart:394:5)
+#19     GestureBinding._flushPointerEventQueue (package:flutter/src/gestures/binding.dart:341:7)
+#20     GestureBinding._handlePointerDataPacket (package:flutter/src/gestures/binding.dart:308:9)
+#21     _invoke1 (dart:ui/hooks.dart:372:13)
+#22     PlatformDispatcher._dispatchPointerDataPacket (dart:ui/platform_dispatcher.dart:467:7)
+#23     _dispatchPointerDataPacket (dart:ui/hooks.dart:307:31)
+
+[ERROR:flutter/runtime/dart_vm_initializer.cc(40)] Unhandled Exception: LateInitializationError: Field '_instance@1857507694' has not been initialized.
+#0      FilePicker._instance (package:file_picker/src/file_picker.dart)
+#1      FilePicker.platform (package:file_picker/src/file_picker.dart:37:37)
+#2      FileTransferPage._pickAndSendFile (package:humantype_windows/features/dashboard/screens/file_transfer_page.dart:67:37)
+#3      FileTransferPage._buildEmptyState.<anonymous closure> (package:humantype_windows/features/dashboard/screens/file_transfer_page.dart:100:32)
+#4      GestureRecognizer.invokeCallback (package:flutter/src/gestures/recognizer.dart:345:24)
+#5      TapGestureRecognizer.handleTapUp (package:flutter/src/gestures/tap.dart:758:11)
+#6      BaseTapGestureRecognizer._checkUp (package:flutter/src/gestures/tap.dart:383:5)
+#7      BaseTapGestureRecognizer.handlePrimaryPointer (package:flutter/src/gestures/tap.dart:314:7)
+#8      PrimaryPointerGestureRecognizer.handleEvent (package:flutter/src/gestures/recognizer.dart:721:9)
+#9      PointerRouter._dispatch (package:flutter/src/gestures/pointer_router.dart:97:12)
+#10     PointerRouter._dispatchEventToRoutes.<anonymous closure> (package:flutter/src/gestures/pointer_router.dart:140:9)
+#11     _LinkedHashMapMixin.forEach (dart:_compact_hash:765:13)
+#12     PointerRouter._dispatchEventToRoutes (package:flutter/src/gestures/pointer_router.dart:138:18)
+#13     PointerRouter.route (package:flutter/src/gestures/pointer_router.dart:128:7)
+#14     GestureBinding.handleEvent (package:flutter/src/gestures/binding.dart:528:19)
+#15     GestureBinding.dispatchEvent (package:flutter/src/gestures/binding.dart:498:22)
+#16     RendererBinding.dispatchEvent (package:flutter/src/rendering/binding.dart:473:11)
+#17     GestureBinding._handlePointerEventImmediately (package:flutter/src/gestures/binding.dart:437:7)
+#18     GestureBinding.handlePointerEvent (package:flutter/src/gestures/binding.dart:394:5)
+#19     GestureBinding._flushPointerEventQueue (package:flutter/src/gestures/binding.dart:341:7)
+#20     GestureBinding._handlePointerDataPacket (package:flutter/src/gestures/binding.dart:308:9)
+#21     _invoke1 (dart:ui/hooks.dart:372:13)
+#22     PlatformDispatcher._dispatchPointerDataPacket (dart:ui/platform_dispatcher.dart:467:7)
+#23     _dispatchPointerDataPacket (dart:ui/hooks.dart:307:31)
+
+[ERROR:flutter/runtime/dart_vm_initializer.cc(40)] Unhandled Exception: LateInitializationError: Field '_instance@1857507694' has not been initialized.
+#0      FilePicker._instance (package:file_picker/src/file_picker.dart)
+#1      FilePicker.platform (package:file_picker/src/file_picker.dart:37:37)
+#2      FileTransferPage._pickAndSendFile (package:humantype_windows/features/dashboard/screens/file_transfer_page.dart:67:37)
+#3      FileTransferPage._buildEmptyState.<anonymous closure> (package:humantype_windows/features/dashboard/screens/file_transfer_page.dart:100:32)
+#4      GestureRecognizer.invokeCallback (package:flutter/src/gestures/recognizer.dart:345:24)
+#5      TapGestureRecognizer.handleTapUp (package:flutter/src/gestures/tap.dart:758:11)
+#6      BaseTapGestureRecognizer._checkUp (package:flutter/src/gestures/tap.dart:383:5)
+#7      BaseTapGestureRecognizer.handlePrimaryPointer (package:flutter/src/gestures/tap.dart:314:7)
+#8      PrimaryPointerGestureRecognizer.handleEvent (package:flutter/src/gestures/recognizer.dart:721:9)
+#9      PointerRouter._dispatch (package:flutter/src/gestures/pointer_router.dart:97:12)
+#10     PointerRouter._dispatchEventToRoutes.<anonymous closure> (package:flutter/src/gestures/pointer_router.dart:140:9)
+#11     _LinkedHashMapMixin.forEach (dart:_compact_hash:765:13)
+#12     PointerRouter._dispatchEventToRoutes (package:flutter/src/gestures/pointer_router.dart:138:18)
+#13     PointerRouter.route (package:flutter/src/gestures/pointer_router.dart:128:7)
+#14     GestureBinding.handleEvent (package:flutter/src/gestures/binding.dart:528:19)
+#15     GestureBinding.dispatchEvent (package:flutter/src/gestures/binding.dart:498:22)
+#16     RendererBinding.dispatchEvent (package:flutter/src/rendering/binding.dart:473:11)
+#17     GestureBinding._handlePointerEventImmediately (package:flutter/src/gestures/binding.dart:437:7)
+#18     GestureBinding.handlePointerEvent (package:flutter/src/gestures/binding.dart:394:5)
+#19     GestureBinding._flushPointerEventQueue (package:flutter/src/gestures/binding.dart:341:7)
+#20     GestureBinding._handlePointerDataPacket (package:flutter/src/gestures/binding.dart:308:9)
+#21     _invoke1 (dart:ui/hooks.dart:372:13)
+#22     PlatformDispatcher._dispatchPointerDataPacket (dart:ui/platform_dispatcher.dart:467:7)
+#23     _dispatchPointerDataPacket (dart:ui/hooks.dart:307:31)
+
+[ERROR:flutter/runtime/dart_vm_initializer.cc(40)] Unhandled Exception: LateInitializationError: Field '_instance@1857507694' has not been initialized.
+#0      FilePicker._instance (package:file_picker/src/file_picker.dart)
+#1      FilePicker.platform (package:file_picker/src/file_picker.dart:37:37)
+#2      FileTransferPage._pickAndSendFile (package:humantype_windows/features/dashboard/screens/file_transfer_page.dart:67:37)
+#3      FileTransferPage._buildEmptyState.<anonymous closure> (package:humantype_windows/features/dashboard/screens/file_transfer_page.dart:100:32)
+#4      GestureRecognizer.invokeCallback (package:flutter/src/gestures/recognizer.dart:345:24)
+#5      TapGestureRecognizer.handleTapUp (package:flutter/src/gestures/tap.dart:758:11)
+#6      BaseTapGestureRecognizer._checkUp (package:flutter/src/gestures/tap.dart:383:5)
+#7      BaseTapGestureRecognizer.handlePrimaryPointer (package:flutter/src/gestures/tap.dart:314:7)
+#8      PrimaryPointerGestureRecognizer.handleEvent (package:flutter/src/gestures/recognizer.dart:721:9)
+#9      PointerRouter._dispatch (package:flutter/src/gestures/pointer_router.dart:97:12)
+#10     PointerRouter._dispatchEventToRoutes.<anonymous closure> (package:flutter/src/gestures/pointer_router.dart:140:9)
+#11     _LinkedHashMapMixin.forEach (dart:_compact_hash:765:13)
+#12     PointerRouter._dispatchEventToRoutes (package:flutter/src/gestures/pointer_router.dart:138:18)
+#13     PointerRouter.route (package:flutter/src/gestures/pointer_router.dart:128:7)
+#14     GestureBinding.handleEvent (package:flutter/src/gestures/binding.dart:528:19)
+#15     GestureBinding.dispatchEvent (package:flutter/src/gestures/binding.dart:498:22)
+#16     RendererBinding.dispatchEvent (package:flutter/src/rendering/binding.dart:473:11)
+#17     GestureBinding._handlePointerEventImmediately (package:flutter/src/gestures/binding.dart:437:7)
+#18     GestureBinding.handlePointerEvent (package:flutter/src/gestures/binding.dart:394:5)
+#19     GestureBinding._flushPointerEventQueue (package:flutter/src/gestures/binding.dart:341:7)
+#20     GestureBinding._handlePointerDataPacket (package:flutter/src/gestures/binding.dart:308:9)
+#21     _invoke1 (dart:ui/hooks.dart:372:13)
+#22     PlatformDispatcher._dispatchPointerDataPacket (dart:ui/platform_dispatcher.dart:467:7)
+#23     _dispatchPointerDataPacket (dart:ui/hooks.dart:307:31)
+
+[ERROR:flutter/runtime/dart_vm_initializer.cc(40)] Unhandled Exception: LateInitializationError: Field '_instance@1857507694' has not been initialized.
+#0      FilePicker._instance (package:file_picker/src/file_picker.dart)
+#1      FilePicker.platform (package:file_picker/src/file_picker.dart:37:37)
+#2      FileTransferPage._pickAndSendFile (package:humantype_windows/features/dashboard/screens/file_transfer_page.dart:67:37)
+#3      FileTransferPage._buildEmptyState.<anonymous closure> (package:humantype_windows/features/dashboard/screens/file_transfer_page.dart:100:32)
+#4      GestureRecognizer.invokeCallback (package:flutter/src/gestures/recognizer.dart:345:24)
+#5      TapGestureRecognizer.handleTapUp (package:flutter/src/gestures/tap.dart:758:11)
+#6      BaseTapGestureRecognizer._checkUp (package:flutter/src/gestures/tap.dart:383:5)
+#7      BaseTapGestureRecognizer.handlePrimaryPointer (package:flutter/src/gestures/tap.dart:314:7)
+#8      PrimaryPointerGestureRecognizer.handleEvent (package:flutter/src/gestures/recognizer.dart:721:9)
+#9      PointerRouter._dispatch (package:flutter/src/gestures/pointer_router.dart:97:12)
+#10     PointerRouter._dispatchEventToRoutes.<anonymous closure> (package:flutter/src/gestures/pointer_router.dart:140:9)
+#11     _LinkedHashMapMixin.forEach (dart:_compact_hash:765:13)
+#12     PointerRouter._dispatchEventToRoutes (package:flutter/src/gestures/pointer_router.dart:138:18)
+#13     PointerRouter.route (package:flutter/src/gestures/pointer_router.dart:128:7)
+#14     GestureBinding.handleEvent (package:flutter/src/gestures/binding.dart:528:19)
+#15     GestureBinding.dispatchEvent (package:flutter/src/gestures/binding.dart:498:22)
+#16     RendererBinding.dispatchEvent (package:flutter/src/rendering/binding.dart:473:11)
+#17     GestureBinding._handlePointerEventImmediately (package:flutter/src/gestures/binding.dart:437:7)
+#18     GestureBinding.handlePointerEvent (package:flutter/src/gestures/binding.dart:394:5)
+#19     GestureBinding._flushPointerEventQueue (package:flutter/src/gestures/binding.dart:341:7)
+#20     GestureBinding._handlePointerDataPacket (package:flutter/src/gestures/binding.dart:308:9)
+#21     _invoke1 (dart:ui/hooks.dart:372:13)
+#22     PlatformDispatcher._dispatchPointerDataPacket (dart:ui/platform_dispatcher.dart:467:7)
+#23     _dispatchPointerDataPacket (dart:ui/hooks.dart:307:31)
+
+[ERROR:flutter/runtime/dart_vm_initializer.cc(40)] Unhandled Exception: LateInitializationError: Field '_instance@1857507694' has not been initialized.
+#0      FilePicker._instance (package:file_picker/src/file_picker.dart)
+#1      FilePicker.platform (package:file_picker/src/file_picker.dart:37:37)
+#2      FileTransferPage._pickAndSendFile (package:humantype_windows/features/dashboard/screens/file_transfer_page.dart:67:37)
+#3      FileTransferPage._buildEmptyState.<anonymous closure> (package:humantype_windows/features/dashboard/screens/file_transfer_page.dart:100:32)
+#4      GestureRecognizer.invokeCallback (package:flutter/src/gestures/recognizer.dart:345:24)
+#5      TapGestureRecognizer.handleTapUp (package:flutter/src/gestures/tap.dart:758:11)
+#6      BaseTapGestureRecognizer._checkUp (package:flutter/src/gestures/tap.dart:383:5)
+#7      BaseTapGestureRecognizer.handlePrimaryPointer (package:flutter/src/gestures/tap.dart:314:7)
+#8      PrimaryPointerGestureRecognizer.handleEvent (package:flutter/src/gestures/recognizer.dart:721:9)
+#9      PointerRouter._dispatch (package:flutter/src/gestures/pointer_router.dart:97:12)
+#10     PointerRouter._dispatchEventToRoutes.<anonymous closure> (package:flutter/src/gestures/pointer_router.dart:140:9)
+#11     _LinkedHashMapMixin.forEach (dart:_compact_hash:765:13)
+#12     PointerRouter._dispatchEventToRoutes (package:flutter/src/gestures/pointer_router.dart:138:18)
+#13     PointerRouter.route (package:flutter/src/gestures/pointer_router.dart:128:7)
+#14     GestureBinding.handleEvent (package:flutter/src/gestures/binding.dart:528:19)
+#15     GestureBinding.dispatchEvent (package:flutter/src/gestures/binding.dart:498:22)
+#16     RendererBinding.dispatchEvent (package:flutter/src/rendering/binding.dart:473:11)
+#17     GestureBinding._handlePointerEventImmediately (package:flutter/src/gestures/binding.dart:437:7)
+#18     GestureBinding.handlePointerEvent (package:flutter/src/gestures/binding.dart:394:5)
+#19     GestureBinding._flushPointerEventQueue (package:flutter/src/gestures/binding.dart:341:7)
+#20     GestureBinding._handlePointerDataPacket (package:flutter/src/gestures/binding.dart:308:9)
+#21     _invoke1 (dart:ui/hooks.dart:372:13)
+#22     PlatformDispatcher._dispatchPointerDataPacket (dart:ui/platform_dispatcher.dart:467:7)
+#23     _dispatchPointerDataPacket (dart:ui/hooks.dart:307:31)

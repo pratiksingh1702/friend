@@ -56,6 +56,12 @@ dependencies:
   google_fonts: ^6.1.0
 
   uuid: ^4.3.3
+  file_picker: ^6.1.1
+  path_provider: ^2.1.2
+  open_filex: ^4.3.4
+  telephony: ^0.2.0
+  flutter_local_notifications: ^17.0.0
+  mime: ^1.0.4
   crypto: ^3.0.3
   intl: ^0.19.0
   permission_handler: ^11.1.0

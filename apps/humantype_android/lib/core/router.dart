@@ -10,6 +10,9 @@ import '../features/templates/screens/templates_screen.dart';
 import '../features/text_mode/screens/text_mode_screen.dart';
 import '../features/text_mode/screens/execution_screen.dart';
 import '../features/home/screens/onboarding_screen.dart';
+import '../features/scratchpad/screens/scratchpad_screen.dart';
+import '../features/file_transfer/screens/file_transfer_screen.dart';
+import '../features/file_browser/screens/file_browser_screen.dart';
 
 class AppRoutes {
   static const home = '/';
@@ -21,6 +24,9 @@ class AppRoutes {
   static const history = '/history';
   static const settings = '/settings';
   static const onboarding = '/onboarding';
+  static const scratchpad = '/scratchpad';
+  static const fileTransfer = '/file-transfer';
+  static const fileBrowser = '/file-browser';
 }
 
 final appRouter = GoRouter(
@@ -61,6 +67,18 @@ final appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.onboarding,
       builder: (context, state) => const OnboardingScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.scratchpad,
+      builder: (context, state) => const ScratchpadScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.fileTransfer,
+      builder: (context, state) => const FileTransferScreen(),
+    ),
+    GoRoute(
+      path: AppRoutes.fileBrowser,
+      builder: (context, state) => const FileBrowserScreen(),
     ),
   ],
   errorBuilder: (context, state) => const _RouteErrorScreen(),

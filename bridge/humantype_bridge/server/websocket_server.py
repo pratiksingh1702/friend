@@ -173,5 +173,29 @@ class WebSocketServer:
             # Relay AI suggestions/results
             await self.broadcast(message, exclude_id=sender_id)
         
+        elif msg_type == 'otp_detected':
+            code = message.get('payload', {}).get('code')
+            if code:
+                print(f"[Bridge] Typing OTP: {code}")
+                await self.executor.type_text(code, interval=0.05)
+        
+        elif msg_type == 'password_response':
+            password = message.get('payload', {}).get('password')
+            if password:
+                print(f"[Bridge] Typing Password")
+                await self.executor.type_text(password, interval=0.02)
+
+        elif msg_type in ['scratchpad_sync', 'clipboard_sync', 'notification_mirror']:
+            # Generic bidirectional sync relay
+            await self.broadcast(message, exclude_id=sender_id)
+
+        elif msg_type.startswith('file_transfer_') or msg_type.startswith('file_browse_'):
+            # File related relay
+            await self.broadcast(message, exclude_id=sender_id)
+
+        elif msg_type == 'password_request':
+            # Request from Windows -> Relay to Android
+            await self.broadcast(message, exclude_id=sender_id)
+
         else:
             print(f"[Bridge] Unknown message: {msg_type}")

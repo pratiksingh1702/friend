@@ -85,6 +85,27 @@ class HomeScreen extends ConsumerWidget {
           ),
           const SizedBox(height: HumanTypeSpacing.xl),
           _QuickActionCard(
+            title: 'Send File',
+            subtitle: 'Transfer to laptop',
+            icon: Icons.upload_file,
+            onTap: () => context.push(AppRoutes.fileTransfer),
+          ),
+          const SizedBox(height: HumanTypeSpacing.md),
+          _QuickActionCard(
+            title: 'Browse Laptop',
+            subtitle: 'Remote file system',
+            icon: Icons.folder_open,
+            onTap: () => context.push(AppRoutes.fileBrowser),
+          ),
+          const SizedBox(height: HumanTypeSpacing.md),
+          _QuickActionCard(
+            title: 'Scratchpad',
+            subtitle: 'Shared notes',
+            icon: Icons.edit_note,
+            onTap: () => context.push(AppRoutes.scratchpad),
+          ),
+          const SizedBox(height: HumanTypeSpacing.md),
+          _QuickActionCard(
             title: 'Templates',
             subtitle: 'Saved sessions',
             icon: Icons.inventory_2_outlined,

@@ -1,8 +1,11 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:window_manager/window_manager.dart';
+import 'package:go_router/go_router.dart';
 import 'package:humantype_shared/humantype_shared.dart';
+import '../../core/services/window_manager_service.dart';
 import '../sync/providers/bridge_provider.dart';
+import 'providers/overlay_settings_provider.dart';
 import 'overlay_ui.dart';
 import 'wda_manager.dart';
 
@@ -42,37 +45,62 @@ class _OverlayWindowState extends ConsumerState<OverlayWindow> with WindowListen
 
   @override
   Widget build(BuildContext context) {
-    // Watch bridge for session status
+    // Watch settings and bridge
     final bridge = ref.watch(bridgeProvider);
+    final settings = ref.watch(overlaySettingsProvider);
     final isActive = bridge.sessionStatus == SessionStatus.executing;
     
-    // Adaptive opacity logic
-    double targetOpacity = 0.9;
+    // Adaptive opacity logic with user override
+    double baseOpacity = settings.opacity;
+    double targetOpacity = baseOpacity;
+    
     if (_isCollapsed) {
-      targetOpacity = 0.4;
+      targetOpacity = (baseOpacity * 0.5).clamp(0.2, 0.5);
     } else if (isActive) {
-      targetOpacity = 0.7; // Slightly transparent when typing
+      targetOpacity = (baseOpacity * 0.8).clamp(0.4, 0.8);
     }
 
     return MouseRegion(
       onEnter: (_) => setState(() => _isCollapsed = false),
       onExit: (_) => setState(() => _isCollapsed = true),
-      child: TweenAnimationBuilder<double>(
-        tween: Tween<double>(begin: 0.0, end: targetOpacity),
-        duration: const Duration(milliseconds: 400),
-        curve: Curves.easeOutCubic,
-        builder: (context, opacity, child) {
-          return Opacity(
-            opacity: opacity,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
-              width: _isCollapsed ? 120 : 320,
-              curve: Curves.easeInOutBack,
-              child: _isCollapsed ? _buildCollapsedHUD(bridge) : const OverlayUI(),
-            ),
-          );
-        },
+      child: GestureDetector(
+        onPanStart: (_) => windowManager.startDragging(),
+        child: TweenAnimationBuilder<double>(
+          tween: Tween<double>(begin: 0.0, end: targetOpacity),
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.easeOutCubic,
+          builder: (context, opacity, child) {
+            return Opacity(
+              opacity: opacity,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                width: _isCollapsed ? 120 : (settings.isExpanded ? 480 : 320),
+                curve: Curves.easeInOutBack,
+                child: _isCollapsed ? _buildCollapsedHUD(bridge) : _buildFullOverlay(context, bridge),
+              ),
+            );
+          },
+        ),
       ),
+    );
+  }
+
+  Widget _buildFullOverlay(BuildContext context, BridgeState bridge) {
+    return Stack(
+      children: [
+        const OverlayUI(),
+        Positioned(
+          top: 8,
+          right: 8,
+          child: IconButton(
+            icon: const Icon(FluentIcons.chrome_back, size: 12),
+            onPressed: () async {
+              await ref.read(windowManagerProvider.notifier).exitHudMode();
+              if (mounted) context.go('/');
+            },
+          ),
+        ),
+      ],
     );
   }
 

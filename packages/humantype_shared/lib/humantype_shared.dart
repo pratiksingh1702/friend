@@ -8,6 +8,9 @@ export 'models/section_model.dart';
 export 'models/session_model.dart';
 export 'models/template_model.dart';
 export 'models/ai_models.dart';
+export 'models/remote_file_info.dart';
+export 'models/transfer_progress_model.dart';
+export 'models/mirrored_notification.dart';
 
 export 'protocols/capability_model.dart';
 export 'protocols/message_types.dart';

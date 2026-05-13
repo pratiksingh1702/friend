@@ -68,4 +68,17 @@
 - [x] **Bridge:** Single EXE packaging (PyInstaller)
 - [x] **Global:** Final testing of end-to-end sync
 - **Milestone:** Production-ready APK + Windows Installer
-hyyua story of nature
+
+## Phase 9 — HumanType v5.0 (New Features)
+- [x] **Shared:** Update `MessageType` enum and add data models (`RemoteFileInfo`, `MirroredNotification`)
+- [x] **Bridge:** Implement relay logic for `scratchpad_sync` and `clipboard_sync`
+- [x] **Bridge:** Implement `otp_detected` and `password_response` typing execution
+- [x] **Windows:** Shared Scratchpad UI + Sync logic
+- [x] **Windows:** Universal Clipboard Sync (Win32 Listener + Relay)
+- [x] **Windows:** Notification Mirroring (Phone → Windows Toast)
+- [/] **Windows:** Notification Mirroring (Windows → Phone via UserNotificationListener) - *Partial: Listener requires WinRT integration*
+- [x] **Windows:** File Transfer (Send to Phone context menu + Chunking)
+- [x] **Windows:** Phone File Browser (Serve directory listing + File chunks)
+- [x] **Windows:** Password Vault integration (Global hotkey `Ctrl+Shift+V` → Request)
+- [ ] **Android:** (Phase 9 tasks as per Agent 1 brief)
+- **Milestone:** Full feature parity and seamless cross-device synchronization.

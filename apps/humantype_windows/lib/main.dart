@@ -5,9 +5,20 @@ import 'core/router.dart';
 import 'core/theme.dart';
 import 'features/calibration/widgets/highlight_overlay.dart';
 import 'features/tray/tray_manager_service.dart';
+import 'core/services_initializer.dart';
+import 'package:hotkey_manager/hotkey_manager.dart';
+import 'package:local_notifier/local_notifier.dart';
+import 'features/file_transfer/providers/pending_transfer_provider.dart';
 
-void main() async {
+void main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
+  
+  print('[Main] App started with args: $args');
+  String? fileToSend;
+  if (args.contains('--send-file') && args.length > args.indexOf('--send-file') + 1) {
+    fileToSend = args[args.indexOf('--send-file') + 1];
+    print('[Main] File to send: $fileToSend');
+  }
   
   // Initialize window manager
   await windowManager.ensureInitialized();
@@ -29,9 +40,21 @@ void main() async {
   // Initialize Tray
   await TrayManagerService().init();
 
+  // Initialize Global Hotkeys
+  await hotKeyManager.unregisterAll();
+
+  // Initialize Local Notifier
+  await localNotifier.setup(
+    appName: 'HumanType',
+  );
+
   runApp(
-    const ProviderScope(
-      child: HumanTypeWindowsApp(),
+    ProviderScope(
+      overrides: [
+        if (fileToSend != null)
+          pendingFileTransferProvider.overrideWith((ref) => fileToSend),
+      ],
+      child: const HumanTypeWindowsApp(),
     ),
   );
 }
@@ -41,22 +64,24 @@ class HumanTypeWindowsApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return FluentApp.router(
-      title: 'HumanType Windows',
-      themeMode: ThemeMode.system,
-      debugShowCheckedModeBanner: false,
-      color: AppTheme.primaryColor,
-      routerConfig: router,
-      theme: AppTheme.light,
-      darkTheme: AppTheme.dark,
-      builder: (context, child) {
-        return Stack(
-          children: [
-            if (child != null) child,
-            const HighlightOverlay(),
-          ],
-        );
-      },
+    return GlobalServicesInitializer(
+      child: FluentApp.router(
+        title: 'HumanType Windows',
+        themeMode: ThemeMode.system,
+        debugShowCheckedModeBanner: false,
+        color: AppTheme.primaryColor,
+        routerConfig: router,
+        theme: AppTheme.light,
+        darkTheme: AppTheme.dark,
+        builder: (context, child) {
+          return Stack(
+            children: [
+              if (child != null) child,
+              const HighlightOverlay(),
+            ],
+          );
+        },
+      ),
     );
   }
 }

@@ -16,6 +16,17 @@ enum MessageType {
   statusUpdate,
   liveTextSync,
   aiCompletion,
+  otpDetected,
+  scratchpadSync,
+  clipboardSync,
+  notificationMirror,
+  fileTransferStart,
+  fileTransferChunk,
+  fileTransferComplete,
+  fileBrowseRequest,
+  fileBrowseResponse,
+  passwordRequest,
+  passwordResponse,
   unsupported,
 }
 
@@ -56,6 +67,28 @@ extension MessageTypeWire on MessageType {
         return 'live_text_sync';
       case MessageType.aiCompletion:
         return 'ai_completion';
+      case MessageType.otpDetected:
+        return 'otp_detected';
+      case MessageType.scratchpadSync:
+        return 'scratchpad_sync';
+      case MessageType.clipboardSync:
+        return 'clipboard_sync';
+      case MessageType.notificationMirror:
+        return 'notification_mirror';
+      case MessageType.fileTransferStart:
+        return 'file_transfer_start';
+      case MessageType.fileTransferChunk:
+        return 'file_transfer_chunk';
+      case MessageType.fileTransferComplete:
+        return 'file_transfer_complete';
+      case MessageType.fileBrowseRequest:
+        return 'file_browse_request';
+      case MessageType.fileBrowseResponse:
+        return 'file_browse_response';
+      case MessageType.passwordRequest:
+        return 'password_request';
+      case MessageType.passwordResponse:
+        return 'password_response';
       case MessageType.unsupported:
         return 'unsupported';
     }
@@ -98,6 +131,28 @@ MessageType messageTypeFromWire(String? value) {
       return MessageType.liveTextSync;
     case 'ai_completion':
       return MessageType.aiCompletion;
+    case 'otp_detected':
+      return MessageType.otpDetected;
+    case 'scratchpad_sync':
+      return MessageType.scratchpadSync;
+    case 'clipboard_sync':
+      return MessageType.clipboardSync;
+    case 'notification_mirror':
+      return MessageType.notificationMirror;
+    case 'file_transfer_start':
+      return MessageType.fileTransferStart;
+    case 'file_transfer_chunk':
+      return MessageType.fileTransferChunk;
+    case 'file_transfer_complete':
+      return MessageType.fileTransferComplete;
+    case 'file_browse_request':
+      return MessageType.fileBrowseRequest;
+    case 'file_browse_response':
+      return MessageType.fileBrowseResponse;
+    case 'password_request':
+      return MessageType.passwordRequest;
+    case 'password_response':
+      return MessageType.passwordResponse;
     case 'unsupported':
       return MessageType.unsupported;
     default:

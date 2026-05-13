@@ -46,7 +46,7 @@ class AppSettings {
       geminiApiKey: '',
       claudeApiKey: '',
       openaiApiKey: '',
-      serverIp: '192.168.1.61',
+      serverIp: '192.168.1.81',
     );
   }
 
